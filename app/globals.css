@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #070707;
+  --ink: #f4f2ee;
+  --orange: #ff6a1a;
+  --orange-glow: rgb(255 106 26 / 0.18);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --dur-1: 150ms;
+  --dur-2: 350ms;
+  --dur-3: 700ms;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 96px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+  body {
+    @apply bg-bg font-sans text-[16px] leading-[1.6] text-ink antialiased md:text-[17px];
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3 { @apply font-semibold; letter-spacing: -0.02em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: rgb(255 106 26 / 0.35); color: var(--ink); }
+
+  /* Focus: 1px orange + 3px outer glow (design.md §7) */
+  :focus-visible {
+    outline: 1px solid var(--orange);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--orange-glow);
+    border-radius: 8px;
+  }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-content px-4 md:px-6; }
+  .section-y { @apply py-22 md:py-32 lg:py-44; }
+  .micro { @apply font-mono text-micro uppercase text-faint; }
+  .accent { @apply font-serif font-normal italic; letter-spacing: -0.01em; }
+  .card {
+    @apply rounded-card border border-line bg-surface shadow-hairline;
+    transition: transform var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out);
+  }
+  .card-hover:hover { @apply -translate-y-1 border-line-strong shadow-orange-edge; }
+}
+
+/* ── Film grain (SVG turbulence, 3%) ───────────────────────────── */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Orbit rotation (hero rings, wordmark dot) ─────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin-rev { to { transform: rotate(-360deg); } }
+.spin-60 { animation: spin 60s linear infinite; }
+.spin-90 { animation: spin-rev 90s linear infinite; }
+.spin-120 { animation: spin 120s linear infinite; }
+.spin-12 { animation: spin 12s linear infinite; }
+
+/* ── Scroll-driven entrances (CSS first; static where unsupported) ─
+   fade + 16px rise, staggered via --i. Content is never hidden if the
+   browser lacks scroll timelines or the user prefers reduced motion. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry calc(4% + var(--i, 0) * 4%) entry calc(38% + var(--i, 0) * 4%);
+    }
+  }
+}
+
+/* Hero scroll cue: thin orange line grows as scrolling begins */
+@keyframes grow { from { transform: scaleY(0.15); } to { transform: scaleY(1); } }
+@keyframes cue-pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+.scroll-cue-line { transform-origin: top; transform: scaleY(0.25); }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-cue-line {
+      animation: grow linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 40vh;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 150ms !important;
+  }
+  .spin-60, .spin-90, .spin-120, .spin-12 { animation: none !important; }
+}
+
+/* ── Domains horizon layout ─────────────────────────────────────── */
+.domains-track {
+  display: grid;
+  gap: 16px;
+  padding-inline: 16px;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+@media (min-width: 640px) {
+  .domains-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) {
+  .domains-track { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; padding-inline: 24px; }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .domains-section { height: 260vh; }
+  .domains-sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
+  .domains-viewport { overflow: hidden; padding-block: 28px; }
+  .domains-track {
+    --tile: clamp(290px, 28vw, 360px);
+    display: flex;
+    width: max-content;
+    max-width: none;
+    gap: 24px;
+    padding-inline: calc(50vw - var(--tile) / 2);
+  }
+  .domains-track > li { width: var(--tile); flex: none; }
+}
+@media (min-width: 768px) and (max-height: 760px) and (prefers-reduced-motion: no-preference) {
+  .domains-track > li article { aspect-ratio: auto; min-height: 320px; }
+}

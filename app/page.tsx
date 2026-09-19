@@ -1,0 +1,27 @@
+import { NavCapsule } from "@/components/nav/NavCapsule";
+import { Contact } from "@/components/sections/Contact";
+import { Domains } from "@/components/sections/Domains";
+import { Footer } from "@/components/sections/Footer";
+import { Founder } from "@/components/sections/Founder";
+import { Hero } from "@/components/sections/Hero";
+import { Principles } from "@/components/sections/Principles";
+import { Process } from "@/components/sections/Process";
+import { Products } from "@/components/sections/Products";
+
+export default function Home() {
+  return (
+    <>
+      <NavCapsule />
+      <main id="main" tabIndex={-1} className="focus:outline-none">
+        <Hero />
+        <Principles />
+        <Domains />
+        <Products />
+        <Process />
+        <Founder />
+        <Contact />
+      </main>
+      <Footer />
+    </>
+  );
+}
