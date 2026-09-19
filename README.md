@@ -24,13 +24,21 @@ npm run dev                  # http://localhost:3000
 
 | Variable | Default | Effect |
 |---|---|---|
-| `NEXT_PUBLIC_CLAREO_URL` | unset | Clareo's domain. While unset, the button reads "Visit Clareo — site coming soon" and can't be clicked. |
+| `NEXT_PUBLIC_CLAREO_URL` | `https://clareo.<site domain>` | Where Clareo lives. "Visit Clareo" and the footer link go to `/clareo` on the Jovora site, which redirects here. |
 | `NEXT_PUBLIC_PORTFOLIO_URL` | unset | Founder portfolio. While unset, the button reads "Portfolio — coming soon" and can't be clicked. |
-| `NEXT_PUBLIC_SITE_URL` | `https://jovora.com` | Canonical URL for metadata, sitemap and JSON-LD. |
+| `NEXT_PUBLIC_SITE_URL` | `https://jovora.ai` | Canonical URL for metadata, sitemap and JSON-LD. |
 | `RESEND_API_KEY`, `CONTACT_TO_EMAIL` | unset | When both are set, contact messages are emailed through Resend. Otherwise they are only logged on the server. |
-| `CONTACT_FROM_EMAIL` | `Jovora <noreply@jovora.com>` | Sender address. Its domain must be verified in Resend. |
+| `CONTACT_FROM_EMAIL` | `Jovora <noreply@jovora.ai>` | Sender address. Its domain must be verified in Resend. |
 
 `NEXT_PUBLIC_*` values are read at build time, so redeploy after changing them.
+
+## Domains: one domain for Jovora and Clareo
+
+Buy one domain (for example `jovora.ai`). Then:
+
+1. **Jovora site:** in the Vercel project for this repo, add `jovora.ai` and `www.jovora.ai`, and set `NEXT_PUBLIC_SITE_URL=https://jovora.ai`.
+2. **Clareo:** in Clareo's own Vercel project (or wherever the Clareo app is hosted), add `clareo.jovora.ai`. At your registrar, point `clareo` to it with a CNAME record, following the value Vercel shows.
+3. The "Visit Clareo" button goes to `jovora.ai/clareo`, which redirects to `https://clareo.jovora.ai`. Nothing else needs changing.
 
 ## Deploy (Vercel)
 
@@ -81,9 +89,9 @@ content/        site.ts · about.ts · domains.ts · products.ts · services.ts 
 | Logo / monogram artwork (currently a coded SVG "J in orbit") | `app/icon.svg`, `public/monogram.svg`, `components/brand/Wordmark.tsx` |
 | Clareo dashboard screenshot (currently a coded mock) | `public/products/clareo/dashboard.png`, then uncomment `screenshot` in `content/products.ts` |
 | Founder photo (optional; the "JE" monogram shows until then) | `public/founder.jpg` + `photo` in `content/founder.ts` |
-| Clareo domain | `NEXT_PUBLIC_CLAREO_URL` |
+| Clareo address (only if not `clareo.<site domain>`) | `NEXT_PUBLIC_CLAREO_URL` |
 | Founder portfolio URL | `NEXT_PUBLIC_PORTFOLIO_URL` |
-| Company email (placeholder `hello@jovora.com`) | `LINKS.contactEmail` in `content/site.ts` |
+| Company email (defaults to `hello@<site domain>`) | `LINKS.contactEmail` in `content/site.ts` |
 | Site domain | `NEXT_PUBLIC_SITE_URL` |
 | Clareo benchmark numbers | `content/products.ts` → `stats`. Update from Clareo's `docs/DETECTION_ENGINE.md`. |
 

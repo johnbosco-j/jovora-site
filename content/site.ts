@@ -2,17 +2,24 @@
 
 const env = (value: string | undefined) => (value && value.trim().length > 0 ? value.trim() : undefined);
 
-export const SITE_URL = env(process.env.NEXT_PUBLIC_SITE_URL) ?? "https://jovora.com";
+export const SITE_URL = env(process.env.NEXT_PUBLIC_SITE_URL) ?? "https://jovora.ai";
+const SITE_HOST = new URL(SITE_URL).host.replace(/^www\./, "");
+
+/**
+ * Where Clareo actually lives. Default: a subdomain of the Jovora domain
+ * (clareo.jovora.ai), so only one domain needs buying. Override with NEXT_PUBLIC_CLAREO_URL.
+ */
+export const CLAREO_URL = env(process.env.NEXT_PUBLIC_CLAREO_URL) ?? `https://clareo.${SITE_HOST}`;
 
 export const LINKS = {
-  /** Clareo's own domain. Undefined until NEXT_PUBLIC_CLAREO_URL is set → button shows "coming soon". */
-  clareo: env(process.env.NEXT_PUBLIC_CLAREO_URL),
-  /** Placeholder domain used in copy/metadata until the real one is bought. */
-  clareoPlaceholder: "https://clareo.app",
+  /** Short link on the Jovora site; next.config.ts redirects /clareo → CLAREO_URL. */
+  clareo: "/clareo",
+  /** Shown in the product card's browser bar. */
+  clareoDisplay: CLAREO_URL.replace(/^https?:\/\//, ""),
   /** Founder portfolio. Undefined until NEXT_PUBLIC_PORTFOLIO_URL is set. */
   portfolio: env(process.env.NEXT_PUBLIC_PORTFOLIO_URL),
   github: "https://github.com/johnbosco-j",
-  contactEmail: "hello@jovora.com", // replace with the real company inbox
+  contactEmail: `hello@${SITE_HOST}`, // create this inbox once the domain is bought
 } as const;
 
 export type NavItem = { label: string; href: `#${string}` };
@@ -38,6 +45,7 @@ export const site = {
   hero: {
     // Headline is split so exactly one word gets the serif-italic accent.
     headline: { before: "We build", accent: "clear", after: "technology for the real world." },
+    motionPrompt: "Tap · move it with your phone",
     sub: "Jovora is a technology company working across AI, robotics, health, developer tools and education. We take one hard problem at a time and ship it properly.",
   },
 

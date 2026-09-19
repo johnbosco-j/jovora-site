@@ -26,7 +26,7 @@ export function About() {
           if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index));
         });
       },
-      { rootMargin: "-58% 0px -28% 0px" },
+      { rootMargin: "-45% 0px -40% 0px" },
     );
     items.forEach((i) => io.observe(i));
     return () => io.disconnect();

@@ -16,8 +16,10 @@ export type Product = {
   features: string[];
   stats?: { value: string; label: string; accent?: boolean }[];
   statsSource?: string;
-  /** External product domain. Undefined → CTA shows "coming soon". */
+  /** Product link (external or a redirecting short link). Undefined → CTA shows "coming soon". */
   href?: string;
+  /** Address shown in the card's browser frame. */
+  displayUrl?: string;
   cta: string;
   /** Optional real screenshot in /public. Without it a coded dashboard mock renders. */
   screenshot?: { src: string; width: number; height: number; alt: string };
@@ -52,6 +54,7 @@ export const products: Product[] = [
     ],
     statsSource: "Accuracy: leave-one-out test on labelled real-world photos. Source: Clareo detection-engine benchmarks.",
     href: LINKS.clareo,
+    displayUrl: LINKS.clareoDisplay,
     cta: "Visit Clareo",
     // screenshot: { src: "/products/clareo/dashboard.png", width: 1600, height: 1000, alt: "Clareo dashboard showing blink rate, fatigue score and weekly trends" },
     disclaimer: "Clareo is a wellness tool, not a medical device.",

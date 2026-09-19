@@ -65,7 +65,7 @@ export function ProductCard({ product }: { product: Product }) {
               <span className="size-2.5 rounded-full bg-line-strong" />
               <span className="size-2.5 rounded-full bg-line-strong" />
               <span className="ml-3 flex-1 truncate rounded-full bg-surface px-3 py-1 font-mono text-[11px] text-faint">
-                {product.href ? product.href.replace(/^https?:\/\//, "") : `${product.slug}.app`}
+                {product.displayUrl ?? product.href?.replace(/^https?:\/\//, "") ?? product.slug}
               </span>
             </div>
             <div className="relative aspect-[16/11] overflow-hidden">

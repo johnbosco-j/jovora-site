@@ -81,7 +81,7 @@ export async function createRobot(
   // Fit height AND width (a waving arm reaches ~0.6h sideways) for the current aspect.
   const frameCamera = (aspect: number) => {
     const tan = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-    const dist = Math.max((h * 0.58) / tan, (h * 0.64) / (tan * aspect));
+    const dist = Math.max((h * 0.62) / tan, (h * 0.64) / (tan * aspect));
     camera.position.set(center.x + dist * 0.05, center.y + h * 0.06, center.z + dist);
     camera.lookAt(target);
   };

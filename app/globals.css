@@ -90,6 +90,7 @@
 .spin-90 { animation: spin-rev 90s linear infinite; }
 .spin-120 { animation: spin 120s linear infinite; }
 .spin-12 { animation: spin 12s linear infinite; }
+.spin-40 { animation: spin 40s linear infinite; }
 
 /* ── Scroll-driven entrances (CSS first; static where unsupported) ─
    fade + 16px rise, staggered via --i. Content is never hidden if the
@@ -128,7 +129,7 @@
     animation-iteration-count: 1 !important;
     transition-duration: 150ms !important;
   }
-  .spin-60, .spin-90, .spin-120, .spin-12 { animation: none !important; }
+  .spin-40, .spin-60, .spin-90, .spin-120, .spin-12 { animation: none !important; }
 }
 
 /* ── Domains horizon layout ─────────────────────────────────────── */
@@ -293,4 +294,15 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .accent-flow { animation: none; background-position: 60% 50%; }
+}
+
+/* Mobile menu: sheet fades in, items rise in sequence */
+@keyframes sheet-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes item-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.menu-sheet { animation: sheet-in 250ms var(--ease-out) both; }
+.menu-sheet .menu-item { animation: item-in 500ms var(--ease-out) both; animation-delay: calc(80ms + var(--i, 0) * 55ms); }
+
+/* Touch screens: cards press in slightly when tapped */
+@media (hover: none) {
+  .card-hover:active, .spotlight:active { transform: scale(0.985); }
 }

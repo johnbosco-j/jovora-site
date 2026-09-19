@@ -3,7 +3,7 @@
 import { useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import type { Emote, RobotHandle, RobotState } from "@/lib/robot/scene";
-import { gyroNeedsPermission, requestGyro, startTilt, tiltX, tiltY } from "@/lib/tilt";
+import { gyroNeedsPermission, requestGyro, shakeEnergy, startTilt, tiltX, tiltY } from "@/lib/tilt";
 
 type Mascot = {
   name: string;
@@ -168,6 +168,18 @@ export function RobotStage({
         noteActivity();
       };
       cleanups.push(tiltX.on("change", update), tiltY.on("change", update));
+      // Shake the phone → Jovo is startled and hops.
+      let lastShake = 0;
+      cleanups.push(
+        shakeEnergy.on("change", (v) => {
+          const now = performance.now();
+          if (v < 0.45 || now - lastShake < 1500) return;
+          lastShake = now;
+          robot.current?.mood("Surprised", 1);
+          robot.current?.emote("Jump");
+          setTimeout(() => robot.current?.mood("Surprised", 0), 900);
+        }),
+      );
     }
     return () => cleanups.forEach((c) => c());
   }, [status, reduce]);
@@ -207,44 +219,53 @@ export function RobotStage({
       ))}
 
       {/* Top bar */}
-      <div className="relative z-10 flex items-center justify-between px-6 pt-5 font-mono text-micro uppercase">
+      <div className="relative z-10 flex items-center justify-between gap-3 px-5 pt-4 font-mono text-micro uppercase md:px-6 md:pt-5">
         <span className="whitespace-nowrap text-ink">
-          {mascot.name} <span className="text-faint md:hidden lg:inline">· {mascot.role}</span>
+          {mascot.name} <span className="hidden text-faint lg:inline">· {mascot.role}</span>
         </span>
-        <span className="flex items-center gap-2 text-faint" aria-live="polite">
+        <span className="flex items-center gap-2 whitespace-nowrap text-faint" aria-live="polite">
           <span className={`size-1.5 rounded-full ${live ? "bg-success" : "bg-faint"} ${live && !reduce ? "animate-pulse" : ""}`} />
           {live ? label : status === "error" ? "Offline" : "Waking up"}
         </span>
       </div>
 
-      {/* Speech bubble */}
-      <div className="relative z-10 flex min-h-[64px] justify-center px-5 pt-4 md:min-h-[84px] lg:min-h-[76px]">
-        <p key={bubble} role="status" className="bubble-in relative max-w-[30ch] rounded-2xl border border-line bg-surface-2/90 px-4 py-2.5 text-center text-[14px] leading-snug text-ink shadow-hairline lg:text-[15px]">
-          {bubble}
-          <span aria-hidden="true" className="absolute -bottom-[6px] left-1/2 size-3 -translate-x-1/2 rotate-45 border-b border-r border-line bg-surface-2" />
-        </p>
+      {/* Phones: Jovo left, bubble right. Tablet/desktop: bubble above Jovo. */}
+      <div className="grid grid-cols-[46%_1fr] items-center md:block">
+        {/* Speech bubble */}
+        <div className="relative z-10 order-2 flex pr-4 md:min-h-[84px] md:justify-center md:px-5 md:pt-4 lg:min-h-[76px]">
+          <p
+            key={bubble}
+            role="status"
+            className="bubble-in relative max-w-[30ch] rounded-2xl border border-line bg-surface-2/90 px-3.5 py-2.5 text-[13px] leading-snug text-ink shadow-hairline md:px-4 md:text-center md:text-[14px] lg:text-[15px]"
+          >
+            {bubble}
+            {/* tail: points left at Jovo on phones, down on larger screens */}
+            <span aria-hidden="true" className="absolute -left-[6px] top-1/2 size-3 -translate-y-1/2 rotate-45 border-b border-l border-line bg-surface-2 md:hidden" />
+            <span aria-hidden="true" className="absolute -bottom-[6px] left-1/2 hidden size-3 -translate-x-1/2 rotate-45 border-b border-r border-line bg-surface-2 md:block" />
+          </p>
+        </div>
+
+        {/* The robot */}
+        <button
+          type="button"
+          onClick={onPress}
+          aria-label={`${mascot.name}, Jovora’s robot — press to make it react`}
+          className="relative z-0 order-1 block h-[200px] w-full cursor-pointer touch-manipulation focus-visible:outline-offset-[-6px] md:-mt-2 md:h-[min(50vh,480px)] lg:h-[min(58vh,560px)]"
+        >
+          <div ref={mount} aria-hidden="true" className="absolute inset-0" />
+          {!live && (
+            <div aria-hidden="true" className="absolute inset-0 grid place-items-center">
+              <div className="relative size-24 md:size-28">
+                <span className="spin-12 absolute inset-0 rounded-full border border-orange/30 border-t-orange" />
+                <span className="absolute inset-[38%] rounded-full bg-orange/15" />
+              </div>
+            </div>
+          )}
+        </button>
       </div>
 
-      {/* The robot */}
-      <button
-        type="button"
-        onClick={onPress}
-        aria-label={`${mascot.name}, Jovora’s robot — press to make it react`}
-        className="relative z-0 -mt-2 block h-[28svh] min-h-[210px] w-full cursor-pointer touch-manipulation focus-visible:outline-offset-[-6px] md:h-[min(50vh,480px)] lg:h-[min(58vh,560px)]"
-      >
-        <div ref={mount} aria-hidden="true" className="absolute inset-0" />
-        {!live && (
-          <div aria-hidden="true" className="absolute inset-0 grid place-items-center">
-            <div className="relative size-28">
-              <span className="spin-12 absolute inset-0 rounded-full border border-orange/30 border-t-orange" />
-              <span className="absolute inset-[38%] rounded-full bg-orange/15" />
-            </div>
-          </div>
-        )}
-      </button>
-
       {/* Hint */}
-      <p className="relative z-10 hidden pb-5 text-center font-mono text-micro uppercase text-faint sm:block">
+      <p className="relative z-10 hidden pb-5 text-center font-mono text-micro uppercase text-faint md:block">
         {reduce ? mascot.name : touch ? mascot.touchHint : mascot.hint}
       </p>
     </div>

@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { Monogram, Wordmark } from "@/components/brand/Wordmark";
-import { site } from "@/content/site";
+import { LINKS, site } from "@/content/site";
 
 export function NavCapsule() {
   const [open, setOpen] = useState(false);
@@ -36,9 +36,17 @@ export function NavCapsule() {
 
   useEffect(() => {
     if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const restore = () => {
+      document.body.style.overflow = prev;
+    };
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      restore();
+      window.removeEventListener("keydown", onKey);
+    };
   }, [open]);
 
   // Services and Contact have their own orange button — keep one orange fill per viewport.
@@ -102,34 +110,44 @@ export function NavCapsule() {
         </div>
       </nav>
 
-      <div
-        id="mobile-menu"
-        hidden={!open}
-        className="pointer-events-auto mx-auto mt-2 max-w-[960px] rounded-panel border border-line bg-surface/95 p-3 shadow-hairline backdrop-blur-[18px] min-[820px]:hidden"
-      >
-        <ul className="flex flex-col">
-          {site.nav.map((item) => (
-            <li key={item.href}>
-              <a
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="flex h-12 items-center rounded-input px-4 text-[17px] text-ink hover:bg-surface-2"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-          <li className="mt-2">
+      {/* Mobile: full-screen menu */}
+      {open && (
+        <div
+          id="mobile-menu"
+          className="menu-sheet pointer-events-auto fixed inset-0 -z-10 flex flex-col bg-bg/95 px-6 pb-8 pt-28 backdrop-blur-2xl min-[820px]:hidden"
+        >
+          <div aria-hidden="true" className="pointer-events-none absolute -right-40 top-20 size-[420px] rounded-full bg-[radial-gradient(closest-side,rgb(255_106_26/0.16),transparent)]" />
+          <ul className="relative flex flex-col">
+            {site.nav.map((item, i) => (
+              <li key={item.href} className="menu-item border-b border-line" style={{ ["--i" as string]: i }}>
+                <a
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-baseline gap-4 py-4 font-serif text-[40px] leading-none tracking-[-0.02em] text-ink active:text-orange-hot"
+                >
+                  <span className="font-mono text-[12px] text-orange">{String(i + 1).padStart(2, "0")}</span>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="menu-item relative mt-auto flex flex-col gap-4" style={{ ["--i" as string]: site.nav.length }}>
             <a
               href={site.navCta.href}
               onClick={() => setOpen(false)}
-              className="flex h-12 items-center justify-center rounded-full bg-orange font-medium text-black"
+              className="flex h-14 items-center justify-center rounded-full bg-orange text-[16px] font-medium text-black"
             >
               {site.navCta.label}
             </a>
-          </li>
-        </ul>
-      </div>
+            <div className="flex items-center justify-between font-mono text-[12px] text-faint">
+              <a href={`mailto:${LINKS.contactEmail}`} className="py-2">{LINKS.contactEmail}</a>
+              <a href={LINKS.github} target="_blank" rel="noopener noreferrer" className="py-2">
+                GitHub ↗<span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
