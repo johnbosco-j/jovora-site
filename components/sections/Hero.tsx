@@ -1,13 +1,13 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { ParallaxLayer } from "@/components/parallax/ParallaxLayer";
-import { Button } from "@/components/ui/Button";
 import { AccentText } from "@/components/ui/AccentHeading";
 import { site } from "@/content/site";
 import { useMotionScale } from "@/lib/hooks";
+import { startTilt, tiltX, tiltY } from "@/lib/tilt";
 import { Orbit } from "./Orbit";
 
 export function Hero() {
@@ -22,6 +22,15 @@ export function Hero() {
   const ringOpacity = useTransform(scrollYProgress, [0, 0.9], [1, scale ? 0.15 : 1]);
   const glowOpacity = useTransform(scrollYProgress, [0, 0.6], [1, scale ? 0 : 1]);
   const contentOpacity = useTransform(scrollYProgress, [0.25, 0.8], [1, scale ? 0 : 1]);
+
+  // Mouse (laptop) or phone tilt (mobile) swings the ring plane for real depth.
+  useEffect(() => startTilt(), []);
+  const sx = useSpring(tiltX, { stiffness: 60, damping: 20 });
+  const sy = useSpring(tiltY, { stiffness: 60, damping: 20 });
+  const ringYaw = useTransform(sx, (v) => v * 28);
+  const ringPitch = useTransform([tilt, sy], ([a, b]: number[]) => a - b * 20);
+  const contentX = useTransform(sx, (v) => v * -14);
+  const contentY = useTransform(sy, (v) => v * -10);
 
   return (
     <section
@@ -43,7 +52,7 @@ export function Hero() {
       <ParallaxLayer speed={0.35} distance={600} className="pointer-events-none absolute inset-0 -z-20" aria-hidden>
         <div className="absolute inset-0 flex items-center justify-center [perspective:1400px]">
           <motion.div
-            style={{ rotateX: tilt, scale: ringScale, opacity: ringOpacity }}
+            style={{ rotateX: ringPitch, rotateY: ringYaw, scale: ringScale, opacity: ringOpacity }}
             className="w-[min(1080px,165vw)] [transform-style:preserve-3d] md:w-[min(1080px,96vw)]"
           >
             <Orbit />
@@ -55,23 +64,16 @@ export function Hero() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_45%_at_50%_52%,rgb(7_7_7/0.6),transparent_75%)]" />
 
       {/* L2 — Content */}
-      <motion.div style={{ opacity: contentOpacity }} className="container-x relative flex flex-col items-center text-center">
+      <motion.div style={{ opacity: contentOpacity, x: contentX, y: contentY }} className="container-x relative flex flex-col items-center text-center">
         <Wordmark className="text-[40px] leading-none text-ink md:text-[52px]" />
-        <p className="micro mt-7 text-muted">{hero.label}</p>
-        <h1 id="hero-title" className="mt-6 max-w-[14ch] text-hero font-semibold">
+        <h1 id="hero-title" className="mt-8 max-w-[14ch] text-hero font-semibold">
           <AccentText heading={hero.headline} />
         </h1>
         <p className="mt-7 max-w-[34rem] text-[17px] text-muted md:text-[19px]">{hero.sub}</p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Button href={hero.primary.href}>{hero.primary.label}</Button>
-          <Button href={hero.secondary.href} variant="secondary">
-            {hero.secondary.label}
-          </Button>
-        </div>
       </motion.div>
 
       {/* Scroll cue — a thin orange line that grows as scrolling begins */}
-      <div aria-hidden="true" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 md:flex [@media(max-height:760px)]:hidden">
+      <div aria-hidden="true" className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 [@media(max-height:560px)]:hidden">
         <span className="micro">{hero.scrollCue}</span>
         <span className="scroll-cue-line block h-14 w-px bg-orange" />
       </div>

@@ -16,8 +16,8 @@ export function NavCapsule() {
   const { scrollY } = useScroll();
   const update = useCallback(() => {
     const mid = window.innerHeight * 0.5;
-    const hero = document.getElementById("top");
-    setPastHero(!!hero && hero.getBoundingClientRect().bottom < mid);
+    const intro = document.getElementById("about") ?? document.getElementById("top");
+    setPastHero(!!intro && intro.getBoundingClientRect().bottom < mid);
     let current: string | null = null;
     for (const item of site.nav) {
       const el = document.getElementById(item.href.slice(1));

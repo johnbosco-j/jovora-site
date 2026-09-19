@@ -36,12 +36,9 @@ export const site = {
   navCta: { label: "Get in touch", href: "#contact" },
 
   hero: {
-    label: "Jovora · Chennai · Est. 2026",
     // Headline is split so exactly one word gets the serif-italic accent.
     headline: { before: "We build", accent: "clear", after: "technology for the real world." },
     sub: "Jovora is a technology company working across AI, robotics, health, developer tools and education. We take one hard problem at a time and ship it properly.",
-    primary: { label: "Explore our products", href: "#products" },
-    secondary: { label: "Meet the founder", href: "#founder" },
     scrollCue: "Scroll",
   },
 
@@ -109,7 +106,7 @@ export const site = {
       {
         title: "Company",
         links: [
-          { label: "About", href: "#top" },
+          { label: "About", href: "#about" },
           { label: "Domains", href: "#domains" },
           { label: "Services", href: "#services" },
           { label: "Founder", href: "#founder" },

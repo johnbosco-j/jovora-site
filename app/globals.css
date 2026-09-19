@@ -130,22 +130,41 @@
 @media (min-width: 768px) {
   .domains-track { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; padding-inline: 24px; }
 }
-@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
-  .domains-section { height: 260vh; }
-  .domains-sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
-  .domains-viewport { overflow: hidden; padding-block: 28px; }
+/* Pinned horizontal horizon — desktop AND mobile (reduced motion keeps the grid above). */
+@media (prefers-reduced-motion: no-preference) {
+  .domains-section { height: 380vh; }
+  .domains-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: 0;
+  }
+  .domains-viewport { overflow: hidden; padding-block: 24px; }
   .domains-track {
-    --tile: clamp(290px, 28vw, 360px);
+    --tile: min(78vw, 340px);
     display: flex;
     width: max-content;
     max-width: none;
-    gap: 24px;
+    gap: 16px;
     padding-inline: calc(50vw - var(--tile) / 2);
   }
   .domains-track > li { width: var(--tile); flex: none; }
+  .domains-track > li article { min-height: 330px; }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .domains-section { height: 260vh; }
+  .domains-track { --tile: clamp(290px, 28vw, 360px); gap: 24px; }
+  .domains-track > li article { min-height: 0; }
 }
 @media (min-width: 768px) and (max-height: 760px) and (prefers-reduced-motion: no-preference) {
   .domains-track > li article { aspect-ratio: auto; min-height: 320px; }
+}
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  /* keep the header compact so heading + tile fit one phone screen */
+  .domains-sticky header p:last-child { display: none; }
 }
 
 /* ── Ambient background (behind every section) ─────────────────────

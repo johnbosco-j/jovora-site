@@ -47,23 +47,27 @@ components/
   nav/          NavCapsule — floating glass capsule, menu button under 820px
   parallax/     ParallaxLayer — scroll-linked layers (speed prop)
                 AmbientBackground — site-wide drifting star field + glow orbs (canvas)
-  sections/     Hero (+ Orbit), Principles, Domains (pinned horizon), Products,
+  about/        RobotStage — interactive 3D mascot (lazy-loads three.js + model)
+  sections/     Hero (+ Orbit), About (who we are / why we're different), Principles, Domains (pinned horizon), Products,
                 Services, Process, Founder, Contact (+ ContactForm), Footer
   ui/           Button, Chip, Stat, DomainTile, ProductCard, ClareoMock, FounderCard, Icon
   brand/        Wordmark (orbiting dot on the second "o"), Monogram
-content/        site.ts · domains.ts · products.ts · services.ts · founder.ts   ← all copy and links
+content/        site.ts · about.ts · domains.ts · products.ts · services.ts · founder.ts   ← all copy and links
 ```
 
 ## Editing content
 
 - **New product:** add an entry to `content/products.ts`. Optionally add a screenshot in `public/products/<slug>/` and set `screenshot`. The first product with `featured: true` gets the large card, and the others render below it.
 - **New domain:** add an entry to `content/domains.ts` with `status` set to `Shipping`, `In research` or `Coming`. Domains marked "In research" also appear as ghost "Next from Jovora" cards under Products.
+- **Who we are / why we're different:** edit `content/about.ts`. Each "why" point has an `emote` (Wave, ThumbsUp, Yes, Jump, Dance, No, Punch) that the robot plays when the point is hovered, focused, or scrolled to on mobile.
 - **Services / client work:** edit `content/services.ts` — offerings, their tags and the three "how we keep cost minimal" commitments.
 - **Clareo or portfolio URL ready:** set the env var and redeploy. No code changes needed.
 
 ## Motion and accessibility
 
 - Ambient background: one `<canvas>` star field in three depth layers that drift slowly, twinkle, link nearby stars with hairlines and shift at 0.06/0.15/0.3× scroll speed. It pauses in hidden tabs and draws a still frame under reduced motion. The domains section adds a perspective grid floor gliding toward the viewer.
+- Depth on every device: `lib/tilt.ts` provides one shared "gaze" input. On a laptop it follows the mouse. On a phone it uses the gyroscope and falls back to touch; iOS asks for motion permission when the robot is first tapped. The star field, hero rings and robot all read from it. Domains pin and scroll sideways on phones too.
+- Robot: `lib/robot/scene.ts` loads three.js and `public/models/robot-expressive.glb` only when the About section gets near the viewport. The robot follows the cursor or tilt, looks surprised at fast mouse movement, looks sad when the cursor leaves the window, and plays a gesture on click or tap. Rendering pauses when it is off-screen, and it holds a still pose under reduced motion.
 - Parallax layers: L0 horizon 0.15× · L1 atmosphere 0.35× · L2 content 1× · L3 foreground 1.2×. Only `transform` and `opacity` are animated.
 - Section entrances use **CSS scroll-driven animations** (`animation-timeline: view()`). Browsers without support show the content statically. Parallax and pinning use Framer Motion `useScroll`.
 - `prefers-reduced-motion`: parallax, tilt, pinning and ring rotation all stop. The domains section becomes a normal grid, and no content is hidden.
@@ -82,3 +86,7 @@ content/        site.ts · domains.ts · products.ts · services.ts · founder.t
 | Company email (placeholder `hello@jovora.com`) | `LINKS.contactEmail` in `content/site.ts` |
 | Site domain | `NEXT_PUBLIC_SITE_URL` |
 | Clareo benchmark numbers | `content/products.ts` → `stats`. Update from Clareo's `docs/DETECTION_ENGINE.md`. |
+
+## Credits
+
+- Robot model: **RobotExpressive** by [Tomás Laulhé (Quaternius)](https://www.patreon.com/quaternius), with facial expressions added by [Don McCurdy](https://donmccurdy.com/), from the three.js examples. Licensed **CC0 1.0**. Jovora's version is recoloured at runtime.

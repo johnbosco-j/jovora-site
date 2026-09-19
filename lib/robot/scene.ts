@@ -1,0 +1,273 @@
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+
+/**
+ * The Jovora robot — "RobotExpressive" by Tomás Laulhé (Quaternius), CC0, with facial
+ * morph targets by Don McCurdy (three.js examples). Recoloured to the Jovora palette.
+ *
+ * Loaded lazily (dynamic import) only when the About section nears the viewport, so
+ * three.js never touches the landing page's initial JavaScript.
+ */
+
+export type Emote = "Wave" | "Yes" | "No" | "ThumbsUp" | "Jump" | "Dance" | "Punch";
+export type Mood = "Surprised" | "Sad" | "Angry";
+
+export type RobotHandle = {
+  /** Where to look, −0.5…0.5 in each axis (screen space relative to the robot). */
+  lookAt(x: number, y: number): void;
+  emote(name: Emote): void;
+  mood(name: Mood, amount: number): void;
+  setActive(active: boolean): void;
+  dispose(): void;
+};
+
+const MODEL_URL = "/models/robot-expressive.glb";
+
+// Palette (design.md tokens): warm-white shell, graphite joints, near-black visor.
+const COLORS: Record<string, string> = { Main: "#E9E5DD", Grey: "#34343A", Black: "#0B0B0C" };
+
+export async function createRobot(container: HTMLElement, { still }: { still: boolean }): Promise<RobotHandle> {
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  renderer.domElement.style.cssText = "width:100%;height:100%;display:block";
+  container.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 200);
+
+  scene.add(new THREE.HemisphereLight(0xf4f2ee, 0x141415, 1.6));
+  const key = new THREE.DirectionalLight(0xffffff, 2.2);
+  key.position.set(4, 8, 7);
+  scene.add(key);
+  const rim = new THREE.DirectionalLight(0xff6a1a, 5); // the single warm light source
+  rim.position.set(-5, 5, -6);
+  scene.add(rim);
+  const fill = new THREE.PointLight(0xff8a3d, 12, 30);
+  fill.position.set(0, 1, 5);
+  scene.add(fill);
+
+  const gltf = await new GLTFLoader().loadAsync(MODEL_URL);
+  const model = gltf.scene;
+  const faces: THREE.Mesh[] = [];
+  model.traverse((o) => {
+    const mesh = o as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    mats.forEach((m) => {
+      const mat = m as THREE.MeshStandardMaterial;
+      if (COLORS[mat.name]) mat.color.set(COLORS[mat.name]);
+      mat.roughness = mat.name === "Black" ? 0.25 : 0.5;
+      mat.metalness = mat.name === "Grey" ? 0.35 : 0.05;
+    });
+    if (mesh.morphTargetDictionary && mesh.morphTargetInfluences) faces.push(mesh);
+  });
+  scene.add(model);
+
+  // Frame the model: fit its height, look slightly from the right.
+  const box = new THREE.Box3().setFromObject(model);
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
+  const h = size.y;
+  const target = new THREE.Vector3(center.x, center.y - h * 0.02, center.z);
+  // Fit height AND width (a waving arm reaches ~0.6h sideways) for the current aspect.
+  const frameCamera = (aspect: number) => {
+    const tan = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    const dist = Math.max((h * 0.62) / tan, (h * 0.66) / (tan * aspect));
+    camera.position.set(center.x + dist * 0.16, center.y + h * 0.08, center.z + dist);
+    camera.lookAt(target);
+  };
+  frameCamera(1);
+
+  // Orbit ring under the feet + soft contact shadow (echoes the hero rings).
+  const floorY = box.min.y + 0.01;
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(h * 0.3, h * 0.305, 128),
+    new THREE.MeshBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: 0.55, side: THREE.DoubleSide }),
+  );
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = floorY;
+  scene.add(ring);
+  const ring2 = new THREE.Mesh(
+    new THREE.RingGeometry(h * 0.42, h * 0.423, 128, 1, 0, Math.PI * 0.5),
+    new THREE.MeshBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: 0.35, side: THREE.DoubleSide }),
+  );
+  ring2.rotation.x = -Math.PI / 2;
+  ring2.position.y = floorY;
+  scene.add(ring2);
+  const shadowTex = (() => {
+    const c = document.createElement("canvas");
+    c.width = c.height = 128;
+    const g = c.getContext("2d")!;
+    const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, "rgba(0,0,0,0.55)");
+    grad.addColorStop(1, "rgba(0,0,0,0)");
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(c);
+  })();
+  const shadow = new THREE.Mesh(
+    new THREE.PlaneGeometry(h * 0.6, h * 0.6),
+    new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false }),
+  );
+  shadow.rotation.x = -Math.PI / 2;
+  shadow.position.y = floorY + 0.005;
+  scene.add(shadow);
+
+  // Bones for the look-at.
+  const bone = (name: string) => {
+    let found: THREE.Bone | undefined;
+    model.traverse((o) => {
+      if (!found && (o as THREE.Bone).isBone && o.name === name) found = o as THREE.Bone;
+    });
+    return found;
+  };
+  const head = bone("Head");
+  const torso = bone("Torso") ?? bone("Abdomen");
+
+  // Animation.
+  const mixer = new THREE.AnimationMixer(model);
+  const actions = new Map<string, THREE.AnimationAction>();
+  gltf.animations.forEach((clip) => actions.set(clip.name, mixer.clipAction(clip)));
+  const idle = actions.get("Idle")!;
+  idle.play();
+  let current: THREE.AnimationAction = idle;
+  let busy = false;
+
+  const fadeTo = (next: THREE.AnimationAction, duration: number) => {
+    if (next === current) return;
+    next.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).fadeIn(duration).play();
+    current.fadeOut(duration);
+    current = next;
+  };
+  mixer.addEventListener("finished", () => {
+    busy = false;
+    fadeTo(idle, 0.35);
+  });
+
+  // Smoothed state.
+  const look = { x: 0, y: 0, tx: 0, ty: 0 };
+  const moods: Record<string, { v: number; t: number }> = {};
+  faces.forEach((f) => Object.keys(f.morphTargetDictionary!).forEach((k) => (moods[k] = { v: 0, t: 0 })));
+
+  const Y = new THREE.Vector3(0, 1, 0);
+  const X = new THREE.Vector3(1, 0, 0);
+  const pq = new THREE.Quaternion();
+  const dq = new THREE.Quaternion();
+  const rotateWorld = (b: THREE.Object3D, axis: THREE.Vector3, angle: number) => {
+    if (!b.parent) return;
+    b.parent.getWorldQuaternion(pq);
+    dq.setFromAxisAngle(axis, angle);
+    // local' = parentWorld⁻¹ · delta · parentWorld · local
+    const inv = pq.clone().invert();
+    b.quaternion.premultiply(inv.multiply(dq).multiply(pq));
+  };
+
+  const clock = new THREE.Clock();
+  let raf = 0;
+  let active = false;
+  let disposed = false;
+  let t = 0;
+
+  const frame = () => {
+    const dt = Math.min(clock.getDelta(), 0.05);
+    t += dt;
+    mixer.update(still ? 0 : dt);
+
+    const ease = 1 - Math.pow(0.001, dt); // frame-rate independent smoothing
+    look.x += (look.tx - look.x) * ease;
+    look.y += (look.ty - look.y) * ease;
+    // Idle "breathing" glance so it never looks frozen.
+    const drift = still ? 0 : Math.sin(t * 0.6) * 0.04;
+
+    model.rotation.y = (look.x + drift) * 0.5;
+    model.updateMatrixWorld(true);
+    if (torso) {
+      rotateWorld(torso, Y, look.x * 0.25);
+      model.updateMatrixWorld(true);
+    }
+    if (head) {
+      rotateWorld(head, Y, (look.x + drift) * 0.9);
+      model.updateMatrixWorld(true);
+      rotateWorld(head, X, look.y * 0.55);
+    }
+
+    for (const f of faces) {
+      for (const [name, i] of Object.entries(f.morphTargetDictionary!)) {
+        const m = moods[name];
+        m.v += (m.t - m.v) * Math.min(1, dt * 8);
+        f.morphTargetInfluences![i] = m.v;
+      }
+    }
+
+    ring2.rotation.z = still ? 0 : t * 0.25;
+    renderer.render(scene, camera);
+  };
+
+  const loop = () => {
+    frame();
+    raf = requestAnimationFrame(loop);
+  };
+
+  const resize = () => {
+    const w = container.clientWidth;
+    const hh = container.clientHeight;
+    if (!w || !hh) return;
+    renderer.setSize(w, hh, false);
+    camera.aspect = w / hh;
+    camera.updateProjectionMatrix();
+    frameCamera(camera.aspect);
+    if (!active || still) frame();
+  };
+  const ro = new ResizeObserver(resize);
+  ro.observe(container);
+  resize();
+  frame();
+
+  return {
+    lookAt(x, y) {
+      look.tx = Math.max(-0.7, Math.min(0.7, x));
+      look.ty = Math.max(-0.5, Math.min(0.5, y));
+      if (still) frame();
+    },
+    emote(name) {
+      if (still) return;
+      const a = actions.get(name);
+      if (!a || busy) return;
+      busy = true;
+      a.setLoop(THREE.LoopOnce, 1);
+      a.clampWhenFinished = true;
+      fadeTo(a, 0.2);
+    },
+    mood(name, amount) {
+      if (moods[name]) moods[name].t = amount;
+      if (still) frame();
+    },
+    setActive(next) {
+      if (disposed || still || next === active) return;
+      active = next;
+      cancelAnimationFrame(raf);
+      if (active) {
+        clock.getDelta();
+        raf = requestAnimationFrame(loop);
+      }
+    },
+    dispose() {
+      disposed = true;
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      mixer.stopAllAction();
+      scene.traverse((o) => {
+        const mesh = o as THREE.Mesh;
+        if (!mesh.isMesh) return;
+        mesh.geometry.dispose();
+        (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).forEach((m) => m.dispose());
+      });
+      shadowTex.dispose();
+      renderer.dispose();
+      renderer.domElement.remove();
+    },
+  };
+}

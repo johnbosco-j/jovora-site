@@ -6,20 +6,18 @@ import { DomainTile } from "@/components/ui/DomainTile";
 import { SectionHeader } from "@/components/ui/AccentHeading";
 import { domains, type Domain } from "@/content/domains";
 import { site } from "@/content/site";
-import { useMediaQuery } from "@/lib/hooks";
 
 /**
- * Domains horizon. Desktop + motion allowed: the section pins (~240vh) and tiles slide
- * horizontally; the centred tile lifts and brightens while the horizon glow drifts
- * orange → amber. Mobile or reduced motion: plain stacked grid (layout is decided in
+ * Domains horizon. With motion allowed (laptop and phone): the section pins and tiles
+ * slide horizontally; the centred tile lifts and brightens while the horizon glow
+ * drifts orange → amber. Reduced motion: plain stacked grid (layout is decided in
  * CSS — see .domains-* in globals.css — so it is correct before JS runs).
  */
 export function Domains() {
   const section = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const desktop = useMediaQuery("(min-width: 768px)");
-  const pinned = desktop && !reduce;
+  const pinned = !reduce;
   const [maxX, setMaxX] = useState(0);
 
   useEffect(() => {

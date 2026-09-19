@@ -17,11 +17,11 @@ export function useMediaQuery(query: string, initial = false) {
 
 /**
  * Parallax multiplier for the current device:
- * 0 with reduced motion, 0.5 on screens < 768px, 1 otherwise (design.md §5).
+ * 0 with reduced motion, 0.75 on screens < 768px (phones get depth too), 1 otherwise.
  */
 export function useMotionScale() {
   const reduce = useReducedMotion();
   const mobile = useMediaQuery("(max-width: 767px)");
   if (reduce) return 0;
-  return mobile ? 0.5 : 1;
+  return mobile ? 0.75 : 1;
 }

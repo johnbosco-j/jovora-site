@@ -1,4 +1,5 @@
 import { NavCapsule } from "@/components/nav/NavCapsule";
+import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { Domains } from "@/components/sections/Domains";
 import { Footer } from "@/components/sections/Footer";
@@ -15,6 +16,7 @@ export default function Home() {
       <NavCapsule />
       <main id="main" tabIndex={-1} className="focus:outline-none">
         <Hero />
+        <About />
         <Principles />
         <Domains />
         <Products />

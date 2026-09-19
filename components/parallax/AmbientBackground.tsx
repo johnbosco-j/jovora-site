@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { startTilt, tiltX, tiltY } from "@/lib/tilt";
 
 /**
  * Site-wide L0/L1 background: a slow, sparse particle field in three depth layers.
@@ -33,13 +34,11 @@ export function AmbientBackground() {
     if (!canvas || !ctx) return;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
     let w = 0;
     let h = 0;
     let particles: Particle[] = [];
     let raf = 0;
     let last = performance.now();
-    let pointer = { x: 0, y: 0 };
     const eased = { x: 0, y: 0 };
 
     const seed = () => {
@@ -78,9 +77,10 @@ export function AmbientBackground() {
     const draw = (t: number, dt: number) => {
       ctx.clearRect(0, 0, w, h);
       const scroll = reduce ? 0 : window.scrollY;
-      const scale = w < 768 ? 0.5 : 1; // halve parallax on small screens
-      eased.x += (pointer.x - eased.x) * 0.04;
-      eased.y += (pointer.y - eased.y) * 0.04;
+      const scale = w < 768 ? 0.75 : 1;
+      const reach = w < 768 ? 110 : 70; // phones: tilt moves the field further
+      eased.x += (tiltX.get() * reach - eased.x) * 0.05;
+      eased.y += (tiltY.get() * reach - eased.y) * 0.05;
 
       // Screen positions per layer, then links, then dots on top.
       const pos: { x: number; y: number; p: Particle }[][] = [[], [], []];
@@ -90,8 +90,8 @@ export function AmbientBackground() {
           p.x = wrap(p.x + p.vx * dt, w);
           p.y = wrap(p.y + p.vy * dt, h);
         }
-        const x = wrap(p.x + eased.x * L.depth * 60, w);
-        const y = wrap(p.y - scroll * L.depth * scale + eased.y * L.depth * 60, h);
+        const x = wrap(p.x + eased.x * L.depth * 1.6, w);
+        const y = wrap(p.y - scroll * L.depth * scale + eased.y * L.depth * 1.6, h);
         pos[p.layer].push({ x, y, p });
       }
 
@@ -142,9 +142,6 @@ export function AmbientBackground() {
     };
 
     const onVisibility = () => (document.hidden ? cancelAnimationFrame(raf) : start());
-    const onPointer = (e: PointerEvent) => {
-      pointer = { x: e.clientX / w - 0.5, y: e.clientY / h - 0.5 };
-    };
     const onResize = () => {
       resize();
       if (reduce) draw(0, 0);
@@ -157,14 +154,13 @@ export function AmbientBackground() {
     } else {
       start();
       document.addEventListener("visibilitychange", onVisibility);
-      if (finePointer) window.addEventListener("pointermove", onPointer, { passive: true });
+      startTilt();
     }
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("pointermove", onPointer);
     };
   }, []);
 
