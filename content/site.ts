@@ -23,12 +23,13 @@ export const site = {
   founded: 2026,
   title: "Jovora — Clear technology for the real world",
   description:
-    "Jovora is a Chennai-based technology company building across AI, robotics, health, developer tools and education. Makers of Clareo.",
+    "Jovora is a Chennai-based technology company building across AI, robotics, health, developer tools and education. Makers of Clareo. We also build full-stack websites and AI solutions for clients at a minimal, optimal cost.",
   mission: "Clear technology for the real world.",
 
   nav: [
     { label: "Domains", href: "#domains" },
     { label: "Products", href: "#products" },
+    { label: "Services", href: "#services" },
     { label: "Founder", href: "#founder" },
     { label: "Contact", href: "#contact" },
   ] satisfies NavItem[],
@@ -97,8 +98,8 @@ export const site = {
   contact: {
     label: "Contact",
     heading: { before: "Let’s build something", accent: "clear", after: "." },
-    intro: "Partnerships, hiring, feedback on Clareo or a question about what we’re building — tell us and we’ll reply.",
-    topics: ["Partnership", "Hiring", "Product feedback", "Press", "Other"],
+    intro: "A project you need built, a partnership, hiring, or feedback on Clareo — tell us and we’ll reply.",
+    topics: ["Project enquiry", "Partnership", "Hiring", "Product feedback", "Press", "Other"],
     success: "Thanks — your message is in. We’ll get back to you soon.",
     emailLabel: "Or write to",
   },
@@ -110,6 +111,7 @@ export const site = {
         links: [
           { label: "About", href: "#top" },
           { label: "Domains", href: "#domains" },
+          { label: "Services", href: "#services" },
           { label: "Founder", href: "#founder" },
         ],
       },

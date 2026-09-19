@@ -40,8 +40,8 @@ export function NavCapsule() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // Contact has its own orange submit button — keep one orange fill per viewport.
-  const ctaClass = pastHero && active !== "contact"
+  // Services and Contact have their own orange button — keep one orange fill per viewport.
+  const ctaClass = pastHero && active !== "contact" && active !== "services"
     ? "bg-orange text-black hover:bg-orange-hot"
     : "border border-line-strong text-ink hover:border-orange";
 
@@ -49,7 +49,7 @@ export function NavCapsule() {
     <header className="pointer-events-none fixed inset-x-0 top-4 z-50 px-4">
       <nav
         aria-label="Primary"
-        className="pointer-events-auto mx-auto flex h-14 max-w-[880px] items-center justify-between gap-4 rounded-full border border-line bg-surface/70 pl-3 pr-2 shadow-hairline backdrop-blur-[18px] backdrop-saturate-[1.4]"
+        className="pointer-events-auto mx-auto flex h-14 max-w-[960px] items-center justify-between gap-4 rounded-full border border-line bg-surface/70 pl-3 pr-2 shadow-hairline backdrop-blur-[18px] backdrop-saturate-[1.4]"
       >
         <a href="#top" className="flex items-center gap-2.5 rounded-full pr-2" aria-label="Jovora — back to top">
           <Monogram size={32} />
@@ -98,7 +98,7 @@ export function NavCapsule() {
       <div
         id="mobile-menu"
         hidden={!open}
-        className="pointer-events-auto mx-auto mt-2 max-w-[880px] rounded-panel border border-line bg-surface/95 p-3 shadow-hairline backdrop-blur-[18px] min-[820px]:hidden"
+        className="pointer-events-auto mx-auto mt-2 max-w-[960px] rounded-panel border border-line bg-surface/95 p-3 shadow-hairline backdrop-blur-[18px] min-[820px]:hidden"
       >
         <ul className="flex flex-col">
           {site.nav.map((item) => (

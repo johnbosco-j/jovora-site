@@ -30,13 +30,12 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-24 pt-32"
     >
-      {/* L0 — Horizon: sun-glow, dot field, faint J monogram */}
+      {/* L0 — Horizon: sun-glow and faint J monogram (the star field is global) */}
       <ParallaxLayer speed={0.15} distance={700} className="pointer-events-none absolute inset-0 -z-30" aria-hidden>
         <motion.div
           style={{ opacity: glowOpacity }}
           className="absolute left-1/2 top-[48%] h-[80vmax] w-[80vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_106_26/0.18),rgb(255_106_26/0.05)_45%,transparent_70%)]"
         />
-        <div className="absolute inset-0 bg-[radial-gradient(rgb(244_242_238/0.09)_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_65%)]" />
         <span className="absolute right-[3vw] top-[6vh] select-none font-serif text-[88vh] leading-[0.8] text-ink/[0.022]">J</span>
       </ParallaxLayer>
 

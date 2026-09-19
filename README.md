@@ -45,22 +45,25 @@ app/            layout (fonts, metadata, JSON-LD, skip link, grain), page, api/c
                 opengraph-image, icon.svg, apple-icon, robots, sitemap
 components/
   nav/          NavCapsule — floating glass capsule, menu button under 820px
-  parallax/     ParallaxLayer — the only scroll-linked movement (speed prop)
+  parallax/     ParallaxLayer — scroll-linked layers (speed prop)
+                AmbientBackground — site-wide drifting star field + glow orbs (canvas)
   sections/     Hero (+ Orbit), Principles, Domains (pinned horizon), Products,
-                Process, Founder, Contact (+ ContactForm), Footer
+                Services, Process, Founder, Contact (+ ContactForm), Footer
   ui/           Button, Chip, Stat, DomainTile, ProductCard, ClareoMock, FounderCard, Icon
   brand/        Wordmark (orbiting dot on the second "o"), Monogram
-content/        site.ts · domains.ts · products.ts · founder.ts   ← all copy and links
+content/        site.ts · domains.ts · products.ts · services.ts · founder.ts   ← all copy and links
 ```
 
 ## Editing content
 
 - **New product:** add an entry to `content/products.ts`. Optionally add a screenshot in `public/products/<slug>/` and set `screenshot`. The first product with `featured: true` gets the large card, and the others render below it.
 - **New domain:** add an entry to `content/domains.ts` with `status` set to `Shipping`, `In research` or `Coming`. Domains marked "In research" also appear as ghost "Next from Jovora" cards under Products.
+- **Services / client work:** edit `content/services.ts` — offerings, their tags and the three "how we keep cost minimal" commitments.
 - **Clareo or portfolio URL ready:** set the env var and redeploy. No code changes needed.
 
 ## Motion and accessibility
 
+- Ambient background: one `<canvas>` star field in three depth layers that drift slowly, twinkle, link nearby stars with hairlines and shift at 0.06/0.15/0.3× scroll speed. It pauses in hidden tabs and draws a still frame under reduced motion. The domains section adds a perspective grid floor gliding toward the viewer.
 - Parallax layers: L0 horizon 0.15× · L1 atmosphere 0.35× · L2 content 1× · L3 foreground 1.2×. Only `transform` and `opacity` are animated.
 - Section entrances use **CSS scroll-driven animations** (`animation-timeline: view()`). Browsers without support show the content statically. Parallax and pinning use Framer Motion `useScroll`.
 - `prefers-reduced-motion`: parallax, tilt, pinning and ring rotation all stop. The domains section becomes a normal grid, and no content is hidden.

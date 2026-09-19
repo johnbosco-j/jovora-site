@@ -26,8 +26,9 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
   }
+  /* Background lives on <html> so the fixed ambient layer can sit behind content */
   body {
-    @apply bg-bg font-sans text-[16px] leading-[1.6] text-ink antialiased md:text-[17px];
+    @apply font-sans text-[16px] leading-[1.6] text-ink antialiased md:text-[17px];
     overflow-x: clip;
     text-rendering: optimizeLegibility;
   }
@@ -145,4 +146,67 @@
 }
 @media (min-width: 768px) and (max-height: 760px) and (prefers-reduced-motion: no-preference) {
   .domains-track > li article { aspect-ratio: auto; min-height: 320px; }
+}
+
+/* ── Ambient background (behind every section) ─────────────────────
+   Two soft glow orbs drifting very slowly. Transform/opacity only. */
+@keyframes orb-a {
+  0% { transform: translate3d(-10vw, -6vh, 0) scale(1); }
+  50% { transform: translate3d(8vw, 10vh, 0) scale(1.15); }
+  100% { transform: translate3d(-4vw, 18vh, 0) scale(0.95); }
+}
+@keyframes orb-b {
+  0% { transform: translate3d(6vw, 8vh, 0) scale(1.1); }
+  50% { transform: translate3d(-10vw, -6vh, 0) scale(0.9); }
+  100% { transform: translate3d(4vw, -14vh, 0) scale(1.05); }
+}
+.ambient-orb {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  will-change: transform;
+}
+.ambient-orb--a {
+  left: -20vmax;
+  top: 10vh;
+  background: radial-gradient(closest-side, rgb(255 106 26 / 0.07), transparent);
+  animation: orb-a 48s var(--ease-in-out) infinite alternate;
+}
+.ambient-orb--b {
+  right: -25vmax;
+  bottom: -20vmax;
+  background: radial-gradient(closest-side, rgb(255 176 46 / 0.05), transparent);
+  animation: orb-b 64s var(--ease-in-out) infinite alternate;
+}
+
+/* ── Domains horizon: perspective grid floor gliding toward the viewer ── */
+@keyframes grid-glide { from { transform: translateY(-64px); } to { transform: translateY(0); } }
+.horizon {
+  perspective: 520px;
+  perspective-origin: 50% 0%;
+  mask-image: linear-gradient(to top, black 0%, black 20%, transparent 90%);
+}
+.horizon-plane {
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: 0;
+  height: 220%;
+  transform-origin: 50% 100%;
+  transform: rotateX(72deg);
+  overflow: hidden;
+}
+.horizon-grid {
+  position: absolute;
+  inset: -64px 0 0 0;
+  background-image:
+    linear-gradient(rgb(255 106 26 / 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 106 26 / 0.12) 1px, transparent 1px);
+  background-size: 64px 64px;
+  animation: grid-glide 5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-orb, .horizon-grid { animation: none !important; }
 }

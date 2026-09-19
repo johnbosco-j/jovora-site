@@ -47,6 +47,12 @@ export function Domains() {
           <motion.div style={{ opacity: amber }} className="absolute inset-0 rounded-[50%] bg-[radial-gradient(closest-side,rgb(255_176_46/0.13),transparent)]" />
         </motion.div>
 
+        <div aria-hidden="true" className="horizon pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[42%]">
+          <div className="horizon-plane">
+            <div className="horizon-grid" />
+          </div>
+        </div>
+
         <div className="flex w-full flex-col gap-10 md:gap-12">
           <div className="container-x">
             <SectionHeader id="domains-title" label={site.domainsSection.label} heading={site.domainsSection.heading} intro={site.domainsSection.intro} />

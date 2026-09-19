@@ -4,7 +4,7 @@ import { site } from "@/content/site";
 export function Process() {
   const { process } = site;
   return (
-    <section aria-labelledby="process-title" className="relative border-t border-line bg-bg-2 section-y">
+    <section aria-labelledby="process-title" className="relative border-t border-line bg-bg-2/60 section-y">
       <div className="container-x">
         <SectionHeader id="process-title" label={process.label} heading={process.heading} />
         <ol className="relative mt-16 grid gap-10 md:mt-20 md:grid-cols-3 md:gap-8">
