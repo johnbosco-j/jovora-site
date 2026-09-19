@@ -6,7 +6,8 @@ export type Founder = {
   monogram: string;
   /** Optional photo in /public; without it the monogram renders. */
   photo?: { src: string; alt: string };
-  education: { degree: string; institution: string; city: string };
+  /** He is a current student, not a graduate — keep `year` up to date each academic year. */
+  education: { year: string; degree: string; institution: string; city: string };
   summary: string;
   highlights: { text: string; strong: string[] }[];
   interests: string;
@@ -18,7 +19,8 @@ export const founder: Founder = {
   role: "Founder & Organisation Owner",
   monogram: "JE",
   education: {
-    degree: "Computer Science & Engineering",
+    year: "Third-year",
+    degree: "B.E. Computer Science & Engineering",
     institution: "Loyola-ICAM College of Engineering and Technology",
     city: "Chennai",
   },

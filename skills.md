@@ -9,7 +9,7 @@ Read `design.md` (visual system) and `prompt.md` (full brief) before changing an
 
 ## Who and what
 
-- **Jovora** is a multi-domain technology company founded and owned by **Johnbosco J Elanjikal** (Chennai, India). It builds products across AI & machine perception, robotics & embedded systems, health & human wellbeing, developer tools, education and institutional platforms.
+- **Jovora** is a multi-domain technology company founded and owned by **Johnbosco J Elanjikal** (Chennai, India), a **current third-year B.E. CSE student at LICET — not a graduate**. Never describe him as a graduate or alumnus; update the year in `content/founder.ts` each academic year. It builds products across AI & machine perception, robotics & embedded systems, health & human wellbeing, developer tools, education and institutional platforms.
 - **Clareo** is Jovora's first product: private, on-device eye-fatigue, eye-strain and posture monitoring for people who work at screens all day.
 - The site's job: explain what Jovora is, show its products (each links out to its own domain), show the founder, and collect contact requests. It is not a product app.
 

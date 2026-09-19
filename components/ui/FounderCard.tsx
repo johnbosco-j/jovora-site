@@ -50,7 +50,7 @@ export function FounderCard({ founder }: { founder: Founder }) {
         <p className="mt-3 font-serif text-[22px] italic text-muted">{founder.role}</p>
 
         <p className="mt-8 text-muted">
-          {founder.education.degree} at <span className="text-ink">{founder.education.institution}</span>, {founder.education.city}.
+          {founder.education.year} {founder.education.degree} student at <span className="text-ink">{founder.education.institution}</span>, {founder.education.city}.
         </p>
         <p className="mt-3 text-muted">{founder.summary}</p>
 
