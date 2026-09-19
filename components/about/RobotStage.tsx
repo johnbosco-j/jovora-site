@@ -12,8 +12,6 @@ type Mascot = {
   touchGreeting: string;
   clicks: { emote: Emote; says: string }[];
   states: Record<string, string>;
-  hint: string;
-  touchHint: string;
 };
 
 /**
@@ -250,7 +248,7 @@ export function RobotStage({
           type="button"
           onClick={onPress}
           aria-label={`${mascot.name}, Jovora’s robot — press to make it react`}
-          className="relative z-0 order-1 block h-[200px] w-full cursor-pointer touch-manipulation focus-visible:outline-offset-[-6px] md:-mt-2 md:h-[min(50vh,480px)] lg:h-[min(58vh,560px)]"
+          className="relative z-0 order-1 block h-[200px] w-full cursor-pointer touch-manipulation focus-visible:outline-offset-[-6px] md:-mt-2 md:mb-4 md:h-[min(50vh,480px)] lg:h-[min(58vh,560px)]"
         >
           <div ref={mount} aria-hidden="true" className="absolute inset-0" />
           {!live && (
@@ -264,10 +262,6 @@ export function RobotStage({
         </button>
       </div>
 
-      {/* Hint */}
-      <p className="relative z-10 hidden pb-5 text-center font-mono text-micro uppercase text-faint md:block">
-        {reduce ? mascot.name : touch ? mascot.touchHint : mascot.hint}
-      </p>
     </div>
   );
 }

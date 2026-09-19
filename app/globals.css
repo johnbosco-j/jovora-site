@@ -306,3 +306,7 @@
 @media (hover: none) {
   .card-hover:active, .spotlight:active { transform: scale(0.985); }
 }
+
+/* Horizontal card rows: scrollable but without a visible scrollbar */
+.no-scrollbar { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

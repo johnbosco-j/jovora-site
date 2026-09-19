@@ -12,6 +12,14 @@ export const about = {
     { text: "properly", accent: true },
     { text: "." },
   ],
+  // Phones: same idea, fewer words.
+  statementShort: [
+    { text: "An engineering-led tech company from Chennai. We build our " },
+    { text: "own", accent: true },
+    { text: " products — and yours, " },
+    { text: "properly", accent: true },
+    { text: "." },
+  ],
   detail: [
     "Founded in 2026 by Johnbosco J Elanjikal, Jovora works across AI, robotics, health, developer tools and education — one hard problem at a time. Our first product, Clareo, protects the eyes and posture of people who work at screens all day.",
     "Alongside our own products we design and build websites, web apps and AI systems for clients, at a minimal, honest cost.",
@@ -57,7 +65,7 @@ export const about = {
     name: "Jovo",
     role: "Jovora’s assistant",
     greeting: "Hi, I’m Jovo. Hover over any reason and I’ll explain it.",
-    touchGreeting: "Hi, I’m Jovo. Keep scrolling — I’ll react to each point.",
+    touchGreeting: "Hi, I’m Jovo. Move through the reasons and I’ll explain each one.",
     clicks: [
       { emote: "Wave", says: "Hello again!" },
       { emote: "ThumbsUp", says: "Clear tech gets a thumbs-up." },
@@ -76,8 +84,6 @@ export const about = {
       Dance: "Dancing",
       Punch: "Punching the air",
     } as Record<string, string>,
-    hint: "Move your cursor · click Jovo",
-    touchHint: "Tilt your phone · tap Jovo",
   },
 
   primary: { label: "Explore our products", href: "#products" },
