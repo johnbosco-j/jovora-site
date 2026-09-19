@@ -29,7 +29,10 @@ export function SectionHeader({
   const center = align === "center" ? "mx-auto text-center items-center" : "";
   return (
     <header className={`flex max-w-3xl flex-col gap-5 ${center}`}>
-      <p className="micro reveal">{label}</p>
+      <p className="micro reveal flex items-center gap-3">
+        <span aria-hidden="true" className="h-px w-8 bg-orange" />
+        {label}
+      </p>
       <h2 id={id} className="reveal text-h2" style={{ ["--i" as string]: 1 }}>
         <AccentText heading={heading} />
       </h2>

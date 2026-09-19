@@ -38,6 +38,7 @@ export const site = {
   hero: {
     // Headline is split so exactly one word gets the serif-italic accent.
     headline: { before: "We build", accent: "clear", after: "technology for the real world." },
+    pill: { tag: "Live", label: "Clareo — private eye-care for screen workers", shortLabel: "Clareo is now live", href: "#products" },
     sub: "Jovora is a technology company working across AI, robotics, health, developer tools and education. We take one hard problem at a time and ship it properly.",
     scrollCue: "Scroll",
   },

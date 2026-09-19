@@ -5,7 +5,7 @@ import { resolveHref } from "@/lib/links";
 export function Footer() {
   const f = site.footer;
   return (
-    <footer className="border-t border-line pb-10 pt-20">
+    <footer className="relative overflow-hidden border-t border-line pb-10 pt-20">
       <div className="container-x">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -56,6 +56,12 @@ export function Footer() {
           <p>{f.legalRight}</p>
         </div>
       </div>
+      <p
+        aria-hidden="true"
+        className="pointer-events-none mt-10 select-none text-center font-serif text-[30vw] leading-[0.75] tracking-[-0.03em] text-transparent [-webkit-text-stroke:1px_rgb(244_242_238/0.1)] bg-[linear-gradient(to_bottom,rgb(255_106_26/0.18),transparent_85%)] bg-clip-text"
+      >
+        Jovora
+      </p>
     </footer>
   );
 }

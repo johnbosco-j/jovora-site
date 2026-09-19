@@ -3,6 +3,7 @@ import { DM_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { LINKS, SITE_URL, site } from "@/content/site";
 import { founder } from "@/content/founder";
 import { AmbientBackground } from "@/components/parallax/AmbientBackground";
+import { SpotlightTracker } from "@/components/ui/SpotlightTracker";
 import "./globals.css";
 
 const sans = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-sans", display: "swap" });
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <AmbientBackground />
+        <SpotlightTracker />
         <div className="relative z-[1]">{children}</div>
         <div className="grain" aria-hidden="true" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

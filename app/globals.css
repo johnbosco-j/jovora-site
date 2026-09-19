@@ -56,6 +56,21 @@
       box-shadow var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out);
   }
   .card-hover:hover { @apply -translate-y-1 border-line-strong shadow-orange-edge; }
+
+  /* Cursor spotlight: a soft orange light that follows the pointer inside cards */
+  .card, .spotlight { position: relative; isolation: isolate; }
+  .card::before, .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--ease-out);
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(255 106 26 / 0.09), transparent 45%);
+  }
+  .card:hover::before, .spotlight:hover::before { opacity: 1; }
 }
 
 /* ── Film grain (SVG turbulence, 3%) ───────────────────────────── */
@@ -229,3 +244,8 @@
 @media (prefers-reduced-motion: reduce) {
   .ambient-orb, .horizon-grid { animation: none !important; }
 }
+
+/* ── Marquee (hero domains ticker) ─────────────────────────────── */
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee 60s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }

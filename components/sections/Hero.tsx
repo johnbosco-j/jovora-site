@@ -8,6 +8,8 @@ import { AccentText } from "@/components/ui/AccentHeading";
 import { site } from "@/content/site";
 import { useMotionScale } from "@/lib/hooks";
 import { startTilt, tiltX, tiltY } from "@/lib/tilt";
+import { domains } from "@/content/domains";
+import { Marquee } from "@/components/ui/Marquee";
 import { Orbit } from "./Orbit";
 
 export function Hero() {
@@ -39,13 +41,12 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-24 pt-32"
     >
-      {/* L0 — Horizon: sun-glow and faint J monogram (the star field is global) */}
+      {/* L0 — Horizon: sun-glow (the star field is global) */}
       <ParallaxLayer speed={0.15} distance={700} className="pointer-events-none absolute inset-0 -z-30" aria-hidden>
         <motion.div
           style={{ opacity: glowOpacity }}
           className="absolute left-1/2 top-[48%] h-[80vmax] w-[80vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_106_26/0.18),rgb(255_106_26/0.05)_45%,transparent_70%)]"
         />
-        <span className="absolute right-[3vw] top-[6vh] select-none font-serif text-[88vh] leading-[0.8] text-ink/[0.022]">J</span>
       </ParallaxLayer>
 
       {/* L1 — Atmosphere: orbit rings */}
@@ -70,7 +71,22 @@ export function Hero() {
           <AccentText heading={hero.headline} />
         </h1>
         <p className="mt-7 max-w-[34rem] text-[17px] text-muted md:text-[19px]">{hero.sub}</p>
+        <a
+          href={hero.pill.href}
+          className="group mt-9 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/60 py-1.5 pl-2 pr-4 text-[14px] text-muted backdrop-blur-md transition-colors duration-2 hover:border-line-strong hover:text-ink"
+        >
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.08em] text-success">
+            <span aria-hidden="true" className="size-1.5 animate-pulse rounded-full bg-success" />
+            {hero.pill.tag}
+          </span>
+          <span className="hidden sm:inline">{hero.pill.label}</span>
+          <span className="sm:hidden">{hero.pill.shortLabel}</span>
+          <span aria-hidden="true" className="transition-transform duration-2 group-hover:translate-x-0.5">→</span>
+        </a>
       </motion.div>
+
+      {/* Domains ticker */}
+      <Marquee items={domains.map((d) => d.title)} className="absolute inset-x-0 bottom-[136px] hidden sm:block [@media(max-height:760px)]:hidden" />
 
       {/* Scroll cue — a thin orange line that grows as scrolling begins */}
       <div aria-hidden="true" className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 [@media(max-height:560px)]:hidden">

@@ -97,7 +97,7 @@ Heading: "What we've *built*." Featured product card for **Clareo**, then a row 
   - Weekly analytics, trends and an AI coach that turns your numbers into habits.
   - Break, 20-20-20 and posture reminders; web app and desktop app.
 - Stats (DM Mono; include the source line in small text):
-  - `95.6%` — "single-frame open/closed eye accuracy on 384 real, hand-labelled faces (cross-validated); live use adds per-person calibration"
+  - `97.9%` — "single-frame open/closed eye accuracy on 384 real, hand-labelled faces (cross-validated); live use adds per-person calibration"
   - `1.2 s` — "of closed eyes before the wake-up alarm sounds"
   - `0 frames` — "of video uploaded, ever"
   (Update these from Clareo's `docs/DETECTION_ENGINE.md` when new benchmarks land.)

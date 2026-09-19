@@ -32,7 +32,7 @@ export function Services() {
         </ul>
 
         {/* Cost promise strip */}
-        <div className="reveal relative mt-6 overflow-hidden rounded-panel border border-line bg-surface/70 p-6 shadow-hairline backdrop-blur-sm md:p-10">
+        <div className="spotlight reveal relative mt-6 overflow-hidden rounded-panel border border-line bg-surface/70 p-6 shadow-hairline backdrop-blur-sm md:p-10">
           <div aria-hidden="true" className="pointer-events-none absolute -left-24 -top-24 size-[360px] rounded-full bg-[radial-gradient(closest-side,rgb(255_106_26/0.12),transparent)]" />
           <div className="relative grid gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-9">

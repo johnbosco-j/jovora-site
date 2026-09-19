@@ -24,7 +24,7 @@ export function ProductCard({ product }: { product: Product }) {
       ref={ref}
       style={{ scale, y }}
       aria-labelledby={`product-${product.slug}`}
-      className="relative overflow-hidden rounded-panel border border-line bg-surface shadow-hairline"
+      className="spotlight relative overflow-hidden rounded-panel border border-line bg-surface shadow-hairline"
     >
       <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-40 size-[520px] rounded-full bg-[radial-gradient(closest-side,rgb(255_106_26/0.14),transparent)]" />
       <div className="relative grid gap-12 p-6 sm:p-10 lg:grid-cols-12 lg:gap-10 lg:p-14">

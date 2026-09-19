@@ -23,8 +23,8 @@ export type RobotHandle = {
 
 const MODEL_URL = "/models/robot-expressive.glb";
 
-// Palette (design.md tokens): warm-white shell, graphite joints, near-black visor.
-const COLORS: Record<string, string> = { Main: "#E9E5DD", Grey: "#34343A", Black: "#0B0B0C" };
+// Palette (design.md tokens): Jovora-orange shell, graphite joints, glossy black visor.
+const COLORS: Record<string, string> = { Main: "#FF6A1A", Grey: "#2C2C31", Black: "#0A0A0B" };
 
 export async function createRobot(container: HTMLElement, { still }: { still: boolean }): Promise<RobotHandle> {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
@@ -38,14 +38,14 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 200);
 
-  scene.add(new THREE.HemisphereLight(0xf4f2ee, 0x141415, 1.6));
-  const key = new THREE.DirectionalLight(0xffffff, 2.2);
+  scene.add(new THREE.HemisphereLight(0xf4f2ee, 0x141415, 1.3));
+  const key = new THREE.DirectionalLight(0xffffff, 2.4);
   key.position.set(4, 8, 7);
   scene.add(key);
-  const rim = new THREE.DirectionalLight(0xff6a1a, 5); // the single warm light source
+  const rim = new THREE.DirectionalLight(0xffb27a, 4); // warm rim light from behind
   rim.position.set(-5, 5, -6);
   scene.add(rim);
-  const fill = new THREE.PointLight(0xff8a3d, 12, 30);
+  const fill = new THREE.PointLight(0xf4f2ee, 8, 30);
   fill.position.set(0, 1, 5);
   scene.add(fill);
 
@@ -59,8 +59,8 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
     mats.forEach((m) => {
       const mat = m as THREE.MeshStandardMaterial;
       if (COLORS[mat.name]) mat.color.set(COLORS[mat.name]);
-      mat.roughness = mat.name === "Black" ? 0.25 : 0.5;
-      mat.metalness = mat.name === "Grey" ? 0.35 : 0.05;
+      mat.roughness = mat.name === "Black" ? 0.18 : mat.name === "Main" ? 0.42 : 0.55;
+      mat.metalness = mat.name === "Grey" ? 0.4 : 0.05;
     });
     if (mesh.morphTargetDictionary && mesh.morphTargetInfluences) faces.push(mesh);
   });
@@ -126,6 +126,10 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
   };
   const head = bone("Head");
   const torso = bone("Torso") ?? bone("Abdomen");
+  // Clips don't key every bone every frame, so offsets must be applied to a known
+  // base pose — otherwise they accumulate and the head drifts or spins.
+  const headRest = head?.quaternion.clone();
+  const torsoRest = torso?.quaternion.clone();
 
   // Animation.
   const mixer = new THREE.AnimationMixer(model);
@@ -165,15 +169,23 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
     b.quaternion.premultiply(inv.multiply(dq).multiply(pq));
   };
 
-  const clock = new THREE.Clock();
+  let lastTime = performance.now();
+  const delta = () => {
+    const now = performance.now();
+    const d = (now - lastTime) / 1000;
+    lastTime = now;
+    return d;
+  };
   let raf = 0;
   let active = false;
   let disposed = false;
   let t = 0;
 
   const frame = () => {
-    const dt = Math.min(clock.getDelta(), 0.05);
+    const dt = Math.min(delta(), 0.05);
     t += dt;
+    if (head && headRest) head.quaternion.copy(headRest);
+    if (torso && torsoRest) torso.quaternion.copy(torsoRest);
     mixer.update(still ? 0 : dt);
 
     const ease = 1 - Math.pow(0.001, dt); // frame-rate independent smoothing
@@ -250,7 +262,7 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
       active = next;
       cancelAnimationFrame(raf);
       if (active) {
-        clock.getDelta();
+        delta();
         raf = requestAnimationFrame(loop);
       }
     },
