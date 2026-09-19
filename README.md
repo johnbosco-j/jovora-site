@@ -80,7 +80,7 @@ content/        site.ts · about.ts · domains.ts · products.ts · services.ts 
 |---|---|
 | Logo / monogram artwork (currently a coded SVG "J in orbit") | `app/icon.svg`, `public/monogram.svg`, `components/brand/Wordmark.tsx` |
 | Clareo dashboard screenshot (currently a coded mock) | `public/products/clareo/dashboard.png`, then uncomment `screenshot` in `content/products.ts` |
-| Founder photo (optional; the "JB" monogram shows until then) | `public/founder.jpg` + `photo` in `content/founder.ts` |
+| Founder photo (optional; the "JE" monogram shows until then) | `public/founder.jpg` + `photo` in `content/founder.ts` |
 | Clareo domain | `NEXT_PUBLIC_CLAREO_URL` |
 | Founder portfolio URL | `NEXT_PUBLIC_PORTFOLIO_URL` |
 | Company email (placeholder `hello@jovora.com`) | `LINKS.contactEmail` in `content/site.ts` |

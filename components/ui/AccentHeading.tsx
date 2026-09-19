@@ -7,7 +7,7 @@ export function AccentText({ heading, glow = false }: { heading: Heading; glow?:
   return (
     <>
       {heading.before}{" "}
-      <em className={`accent ${glow ? "bg-gradient-to-br from-ink via-ink to-orange-hot bg-clip-text pr-[0.06em] text-transparent" : ""}`}>{heading.accent}</em>
+      <em className={`accent ${glow ? "accent-flow pr-[0.06em]" : ""}`}>{heading.accent}</em>
       {joiner}
       {after}
     </>

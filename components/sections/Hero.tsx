@@ -27,12 +27,15 @@ export function Hero() {
 
   // Mouse (laptop) or phone tilt (mobile) swings the ring plane for real depth.
   useEffect(() => startTilt(), []);
-  const sx = useSpring(tiltX, { stiffness: 60, damping: 20 });
-  const sy = useSpring(tiltY, { stiffness: 60, damping: 20 });
-  const ringYaw = useTransform(sx, (v) => v * 28);
-  const ringPitch = useTransform([tilt, sy], ([a, b]: number[]) => a - b * 20);
-  const contentX = useTransform(sx, (v) => v * -14);
-  const contentY = useTransform(sy, (v) => v * -10);
+  const sx = useSpring(tiltX, { stiffness: 110, damping: 18 });
+  const sy = useSpring(tiltY, { stiffness: 110, damping: 18 });
+  const ringYaw = useTransform(sx, (v) => v * 46);
+  const ringPitch = useTransform([tilt, sy], ([a, b]: number[]) => a - b * 34);
+  const contentX = useTransform(sx, (v) => v * -22);
+  const contentY = useTransform(sy, (v) => v * -16);
+  // A warm light that follows the cursor (or phone tilt) across the hero.
+  const lightX = useTransform(sx, (v) => `${v * 90}vw`);
+  const lightY = useTransform(sy, (v) => `${v * 90}vh`);
 
   return (
     <section
@@ -45,7 +48,7 @@ export function Hero() {
       <ParallaxLayer speed={0.15} distance={700} className="pointer-events-none absolute inset-0 -z-30" aria-hidden>
         <motion.div
           style={{ opacity: glowOpacity }}
-          className="absolute left-1/2 top-[48%] h-[80vmax] w-[80vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_106_26/0.18),rgb(255_106_26/0.05)_45%,transparent_70%)]"
+          className="absolute left-1/2 top-[48%] h-[80vmax] w-[80vmax] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_106_26/0.26),rgb(255_106_26/0.07)_45%,transparent_70%)]"
         />
       </ParallaxLayer>
 
@@ -61,6 +64,13 @@ export function Hero() {
         </div>
       </ParallaxLayer>
 
+      {/* Cursor / tilt light */}
+      <motion.div
+        aria-hidden="true"
+        style={{ x: lightX, y: lightY, opacity: glowOpacity }}
+        className="pointer-events-none absolute left-1/2 top-1/2 -z-20 -ml-[320px] -mt-[320px] size-[640px] rounded-full bg-[radial-gradient(closest-side,rgb(255_138_61/0.16),transparent)]"
+      />
+
       {/* Scrim keeps text ≥ 4.5:1 over rings at every scroll position */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_45%_at_50%_52%,rgb(7_7_7/0.6),transparent_75%)]" />
 
@@ -71,30 +81,12 @@ export function Hero() {
           <h1 id="hero-title" className="mt-8 max-w-[14ch] text-hero font-semibold">
             <AccentText heading={hero.headline} glow />
           </h1>
-          <p className="mt-7 max-w-[34rem] text-[17px] text-muted md:text-[19px]">{hero.sub}</p>
-          <a
-            href={hero.pill.href}
-            className="group mt-9 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/60 py-1.5 pl-2 pr-4 text-[14px] text-muted backdrop-blur-md transition-colors duration-2 hover:border-line-strong hover:text-ink"
-          >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.08em] text-success">
-              <span aria-hidden="true" className="size-1.5 animate-pulse rounded-full bg-success" />
-              {hero.pill.tag}
-            </span>
-            <span className="hidden sm:inline">{hero.pill.label}</span>
-            <span className="sm:hidden">{hero.pill.shortLabel}</span>
-            <span aria-hidden="true" className="transition-transform duration-2 group-hover:translate-x-0.5">→</span>
-          </a>
+          <p className="mt-8 max-w-[36rem] font-modern text-[18px] font-light leading-[1.55] tracking-[-0.01em] text-ink/80 md:text-[21px]">{hero.sub}</p>
         </motion.div>
       </div>
 
       {/* Domains ticker */}
       <Marquee items={domains.map((d) => d.title)} className="mt-12 hidden sm:block [@media(max-height:700px)]:hidden" />
-
-      {/* Scroll cue — a thin orange line that grows as scrolling begins */}
-      <div aria-hidden="true" className="mt-6 flex flex-col items-center gap-3 [@media(max-height:560px)]:hidden">
-        <span className="micro">{hero.scrollCue}</span>
-        <span className="scroll-cue-line block h-10 w-px bg-orange" />
-      </div>
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { DM_Mono, Geist, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { LINKS, SITE_URL, site } from "@/content/site";
 import { founder } from "@/content/founder";
 import { AmbientBackground } from "@/components/parallax/AmbientBackground";
@@ -8,6 +8,7 @@ import "./globals.css";
 
 const sans = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-sans", display: "swap" });
 const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif", display: "swap" });
+const modern = Geist({ subsets: ["latin"], weight: ["300", "400"], variable: "--font-modern", display: "swap" });
 const mono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
@@ -37,7 +38,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${serif.variable} ${mono.variable} ${modern.variable}`}>
       <body>
         <a
           href="#main"

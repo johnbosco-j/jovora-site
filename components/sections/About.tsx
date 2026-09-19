@@ -36,15 +36,15 @@ export function About() {
 
   return (
     <section id="about" aria-labelledby="about-title" className="section-divider relative overflow-x-clip section-y">
-      <div className="container-x lg:grid lg:grid-cols-12 lg:gap-12">
+      <div className="container-x md:grid md:grid-cols-12 md:gap-8 lg:gap-12">
         {/* Jovo: pinned under the nav on phones, sticky beside the copy on desktop */}
-        <div className="sticky top-[76px] z-20 -mx-1 mb-10 lg:static lg:order-last lg:col-span-5 lg:mx-0 lg:mb-0">
-          <div className="lg:sticky lg:top-[12vh]">
+        <div className="sticky top-[76px] z-20 -mx-1 mb-10 md:static md:order-last md:col-span-5 md:mx-0 md:mb-0">
+          <div className="md:sticky md:top-[14vh] lg:top-[12vh]">
             <RobotStage mascot={about.mascot} active={current ? { emote: current.emote, says: current.says } : null} />
           </div>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="md:col-span-7">
           <h2 id="about-title" className="micro reveal flex items-center gap-3">
             <span aria-hidden="true" className="h-px w-8 bg-orange" />
             {about.label}

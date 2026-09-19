@@ -21,20 +21,21 @@ export function Orbit({ faint = false, className = "" }: { faint?: boolean; clas
           style={{ width: `${ring.size}%`, height: `${ring.size}%`, transform: "translate(-50%, -50%)" }}
         >
           <svg viewBox="-104 -104 208 208" className={`size-full overflow-visible ${ring.spin}`}>
-            <circle r={R} fill="none" className="stroke-orange" strokeOpacity={(faint ? 0.35 : 1) * ring.opacity * 0.85} strokeWidth="0.5" vectorEffect="non-scaling-stroke" />
+            <circle r={R} fill="none" className="stroke-orange" strokeOpacity={(faint ? 0.35 : 1) * ring.opacity * 1.15} strokeWidth="0.5" vectorEffect="non-scaling-stroke" />
             <circle
               r={R}
               fill="none"
               className="stroke-orange"
-              strokeOpacity={(faint ? 0.35 : 1) * Math.min(1, ring.opacity * 2.2)}
-              strokeWidth="1"
+              strokeOpacity={(faint ? 0.35 : 1) * Math.min(1, ring.opacity * 3)}
+              strokeWidth={faint ? 1 : 1.5}
               vectorEffect="non-scaling-stroke"
               strokeLinecap="round"
               strokeDasharray={`${C * ring.arc} ${C}`}
             />
             {ring.sphere && !faint && (
               <g transform={`rotate(${-90 + ring.arc * 360}) translate(${R} 0)`}>
-                <circle r="7" className="fill-orange" opacity="0.18" />
+                <circle r="9" className="fill-orange" opacity="0.22" />
+                <circle r="4.5" className="fill-orange" opacity="0.35" />
                 <circle r="2.6" className="fill-orange-hot" />
               </g>
             )}

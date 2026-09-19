@@ -13,7 +13,7 @@ export const about = {
     { text: "." },
   ],
   detail: [
-    "Founded in 2026 by John Bosco J, Jovora works across AI, robotics, health, developer tools and education — one hard problem at a time. Our first product, Clareo, protects the eyes and posture of people who work at screens all day.",
+    "Founded in 2026 by Johnbosco J Elanjikal, Jovora works across AI, robotics, health, developer tools and education — one hard problem at a time. Our first product, Clareo, protects the eyes and posture of people who work at screens all day.",
     "Alongside our own products we design and build websites, web apps and AI systems for clients, at a minimal, honest cost.",
   ],
 

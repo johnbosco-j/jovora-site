@@ -24,8 +24,8 @@ function onOrientation(e: DeviceOrientationEvent) {
   // Calibrate "neutral" to however the phone is held when we first hear from it.
   if (baseBeta == null) baseBeta = e.beta;
   baseBeta += (e.beta - baseBeta) * 0.004; // slowly re-centre as posture changes
-  tiltX.set(clamp(e.gamma / 50));
-  tiltY.set(clamp((e.beta - baseBeta) / 50));
+  tiltX.set(clamp(e.gamma / 34));
+  tiltY.set(clamp((e.beta - baseBeta) / 34));
 }
 
 type OrientationWithPermission = typeof DeviceOrientationEvent & {

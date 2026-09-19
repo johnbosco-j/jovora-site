@@ -14,9 +14,9 @@ export type Founder = {
 };
 
 export const founder: Founder = {
-  name: "John Bosco J",
+  name: "Johnbosco J Elanjikal",
   role: "Founder & Organisation Owner",
-  monogram: "JB",
+  monogram: "JE",
   education: {
     degree: "Computer Science & Engineering",
     institution: "Loyola-ICAM College of Engineering and Technology",

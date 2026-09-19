@@ -78,7 +78,7 @@ export function AmbientBackground() {
       ctx.clearRect(0, 0, w, h);
       const scroll = reduce ? 0 : window.scrollY;
       const scale = w < 768 ? 0.75 : 1;
-      const reach = w < 768 ? 110 : 70; // phones: tilt moves the field further
+      const reach = w < 768 ? 150 : 110; // phones: tilt moves the field further
       eased.x += (tiltX.get() * reach - eased.x) * 0.05;
       eased.y += (tiltY.get() * reach - eased.y) * 0.05;
 

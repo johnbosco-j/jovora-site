@@ -195,7 +195,7 @@ export function RobotStage({
   return (
     <div
       ref={stage}
-      className="spotlight relative overflow-hidden rounded-panel border border-line bg-bg/80 shadow-hairline backdrop-blur-xl lg:bg-surface/40"
+      className="spotlight relative overflow-hidden rounded-panel border border-line bg-bg/80 shadow-hairline backdrop-blur-xl md:bg-surface/40"
     >
       {/* Backdrop: dot grid + warm floor glow */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgb(244_242_238/0.07)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_50%_60%,black_20%,transparent_75%)]" />
@@ -208,8 +208,8 @@ export function RobotStage({
 
       {/* Top bar */}
       <div className="relative z-10 flex items-center justify-between px-6 pt-5 font-mono text-micro uppercase">
-        <span className="text-ink">
-          {mascot.name} <span className="text-faint">· {mascot.role}</span>
+        <span className="whitespace-nowrap text-ink">
+          {mascot.name} <span className="text-faint md:hidden lg:inline">· {mascot.role}</span>
         </span>
         <span className="flex items-center gap-2 text-faint" aria-live="polite">
           <span className={`size-1.5 rounded-full ${live ? "bg-success" : "bg-faint"} ${live && !reduce ? "animate-pulse" : ""}`} />
@@ -218,7 +218,7 @@ export function RobotStage({
       </div>
 
       {/* Speech bubble */}
-      <div className="relative z-10 flex min-h-[64px] justify-center px-6 pt-4 lg:min-h-[76px]">
+      <div className="relative z-10 flex min-h-[64px] justify-center px-5 pt-4 md:min-h-[84px] lg:min-h-[76px]">
         <p key={bubble} role="status" className="bubble-in relative max-w-[30ch] rounded-2xl border border-line bg-surface-2/90 px-4 py-2.5 text-center text-[14px] leading-snug text-ink shadow-hairline lg:text-[15px]">
           {bubble}
           <span aria-hidden="true" className="absolute -bottom-[6px] left-1/2 size-3 -translate-x-1/2 rotate-45 border-b border-r border-line bg-surface-2" />
@@ -230,7 +230,7 @@ export function RobotStage({
         type="button"
         onClick={onPress}
         aria-label={`${mascot.name}, Jovora’s robot — press to make it react`}
-        className="relative z-0 -mt-2 block h-[28svh] min-h-[210px] w-full cursor-pointer touch-manipulation focus-visible:outline-offset-[-6px] lg:h-[min(58vh,560px)]"
+        className="relative z-0 -mt-2 block h-[28svh] min-h-[210px] w-full cursor-pointer touch-manipulation focus-visible:outline-offset-[-6px] md:h-[min(50vh,480px)] lg:h-[min(58vh,560px)]"
       >
         <div ref={mount} aria-hidden="true" className="absolute inset-0" />
         {!live && (

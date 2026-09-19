@@ -53,7 +53,6 @@ export function Footer() {
         </div>
         <div className="mt-16 flex flex-col justify-between gap-3 section-divider pt-6 font-mono text-[12px] text-faint sm:flex-row">
           <p>{f.legalLeft}</p>
-          <p>{f.legalRight}</p>
         </div>
       </div>
       <p
