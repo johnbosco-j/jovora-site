@@ -5,7 +5,7 @@ import { ContactForm } from "./ContactForm";
 export function Contact() {
   const c = site.contact;
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative border-t border-line bg-bg-2/60 section-y">
+    <section id="contact" aria-labelledby="contact-title" className="relative section-divider section-y">
       <div className="container-x grid gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="flex flex-col gap-10 lg:col-span-5">
           <SectionHeader id="contact-title" label={c.label} heading={c.heading} intro={c.intro} />

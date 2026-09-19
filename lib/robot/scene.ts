@@ -12,6 +12,9 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 export type Emote = "Wave" | "Yes" | "No" | "ThumbsUp" | "Jump" | "Dance" | "Punch";
 export type Mood = "Surprised" | "Sad" | "Angry";
 
+/** What the robot is doing right now — surfaced in the stage HUD. */
+export type RobotState = "idle" | "looking" | Emote;
+
 export type RobotHandle = {
   /** Where to look, −0.5…0.5 in each axis (screen space relative to the robot). */
   lookAt(x: number, y: number): void;
@@ -26,7 +29,10 @@ const MODEL_URL = "/models/robot-expressive.glb";
 // Palette (design.md tokens): Jovora-orange shell, graphite joints, glossy black visor.
 const COLORS: Record<string, string> = { Main: "#FF6A1A", Grey: "#2C2C31", Black: "#0A0A0B" };
 
-export async function createRobot(container: HTMLElement, { still }: { still: boolean }): Promise<RobotHandle> {
+export async function createRobot(
+  container: HTMLElement,
+  { still, onState }: { still: boolean; onState?: (state: RobotState) => void },
+): Promise<RobotHandle> {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -75,8 +81,8 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
   // Fit height AND width (a waving arm reaches ~0.6h sideways) for the current aspect.
   const frameCamera = (aspect: number) => {
     const tan = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-    const dist = Math.max((h * 0.62) / tan, (h * 0.66) / (tan * aspect));
-    camera.position.set(center.x + dist * 0.16, center.y + h * 0.08, center.z + dist);
+    const dist = Math.max((h * 0.58) / tan, (h * 0.64) / (tan * aspect));
+    camera.position.set(center.x + dist * 0.05, center.y + h * 0.06, center.z + dist);
     camera.lookAt(target);
   };
   frameCamera(1);
@@ -138,21 +144,28 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
   const idle = actions.get("Idle")!;
   idle.play();
   let current: THREE.AnimationAction = idle;
-  let busy = false;
+  let emoting = false;
 
   const fadeTo = (next: THREE.AnimationAction, duration: number) => {
-    if (next === current) return;
+    if (next === current) {
+      next.reset().play(); // same gesture again: restart it
+      return;
+    }
     next.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).fadeIn(duration).play();
     current.fadeOut(duration);
     current = next;
   };
-  mixer.addEventListener("finished", () => {
-    busy = false;
-    fadeTo(idle, 0.35);
+  mixer.addEventListener("finished", (e) => {
+    if ((e as unknown as { action: THREE.AnimationAction }).action !== current) return;
+    emoting = false;
+    fadeTo(idle, 0.4);
+    onState?.("idle");
   });
 
   // Smoothed state.
   const look = { x: 0, y: 0, tx: 0, ty: 0 };
+  let lastInput = -Infinity;
+  let nextNod = 14;
   const moods: Record<string, { v: number; t: number }> = {};
   faces.forEach((f) => Object.keys(f.morphTargetDictionary!).forEach((k) => (moods[k] = { v: 0, t: 0 })));
 
@@ -176,6 +189,17 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
     lastTime = now;
     return d;
   };
+  const play = (name: Emote, fromUser: boolean) => {
+    const a = actions.get(name);
+    if (!a || still) return;
+    if (fromUser) lastInput = t;
+    emoting = true;
+    a.setLoop(THREE.LoopOnce, 1);
+    a.clampWhenFinished = true;
+    fadeTo(a, 0.18);
+    onState?.(name);
+  };
+
   let raf = 0;
   let active = false;
   let disposed = false;
@@ -188,22 +212,35 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
     if (torso && torsoRest) torso.quaternion.copy(torsoRest);
     mixer.update(still ? 0 : dt);
 
-    const ease = 1 - Math.pow(0.001, dt); // frame-rate independent smoothing
-    look.x += (look.tx - look.x) * ease;
-    look.y += (look.ty - look.y) * ease;
-    // Idle "breathing" glance so it never looks frozen.
-    const drift = still ? 0 : Math.sin(t * 0.6) * 0.04;
+    // Nobody around for a while → glance about slowly, and nod now and then.
+    const idleFor = t - lastInput;
+    let tx = look.tx;
+    let ty = look.ty;
+    if (!still && idleFor > 2.5) {
+      tx = Math.sin(t * 0.35) * 0.35 + Math.sin(t * 0.9) * 0.08;
+      ty = Math.sin(t * 0.5) * 0.12 - 0.05;
+      if (!emoting && t > nextNod) {
+        nextNod = t + 14 + Math.random() * 8;
+        play("Yes", false);
+      }
+    }
+    const ease = 1 - Math.pow(0.002, dt); // frame-rate independent smoothing
+    look.x += (tx - look.x) * ease;
+    look.y += (ty - look.y) * ease;
 
-    model.rotation.y = (look.x + drift) * 0.5;
+    // Keep the face toward the viewer: ~30° max turn, split body → torso → head,
+    // and let gestures read clearly by damping the gaze while one plays.
+    const k = emoting ? 0.45 : 1;
+    model.rotation.y = look.x * 0.22 * k;
     model.updateMatrixWorld(true);
     if (torso) {
-      rotateWorld(torso, Y, look.x * 0.25);
+      rotateWorld(torso, Y, look.x * 0.12 * k);
       model.updateMatrixWorld(true);
     }
     if (head) {
-      rotateWorld(head, Y, (look.x + drift) * 0.9);
+      rotateWorld(head, Y, look.x * 0.55 * k);
       model.updateMatrixWorld(true);
-      rotateWorld(head, X, look.y * 0.55);
+      rotateWorld(head, X, look.y * 0.4 * k);
     }
 
     for (const f of faces) {
@@ -240,18 +277,13 @@ export async function createRobot(container: HTMLElement, { still }: { still: bo
 
   return {
     lookAt(x, y) {
-      look.tx = Math.max(-0.7, Math.min(0.7, x));
-      look.ty = Math.max(-0.5, Math.min(0.5, y));
+      look.tx = Math.max(-0.6, Math.min(0.6, x));
+      look.ty = Math.max(-0.45, Math.min(0.45, y));
+      lastInput = t;
       if (still) frame();
     },
     emote(name) {
-      if (still) return;
-      const a = actions.get(name);
-      if (!a || busy) return;
-      busy = true;
-      a.setLoop(THREE.LoopOnce, 1);
-      a.clampWhenFinished = true;
-      fadeTo(a, 0.2);
+      play(name, true);
     },
     mood(name, amount) {
       if (moods[name]) moods[name].t = amount;

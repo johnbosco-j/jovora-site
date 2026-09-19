@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { Monogram, Wordmark } from "@/components/brand/Wordmark";
 import { site } from "@/content/site";
@@ -13,7 +13,8 @@ export function NavCapsule() {
 
   // Highlight the section under the viewport's middle; the orange CTA fill only appears
   // after the hero so the hero's own primary button stays the single orange fill in view.
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
   const update = useCallback(() => {
     const mid = window.innerHeight * 0.5;
     const intro = document.getElementById("about") ?? document.getElementById("top");
@@ -49,8 +50,14 @@ export function NavCapsule() {
     <header className="pointer-events-none fixed inset-x-0 top-4 z-50 px-4">
       <nav
         aria-label="Primary"
-        className="pointer-events-auto mx-auto flex h-14 max-w-[960px] items-center justify-between gap-4 rounded-full border border-line bg-surface/70 pl-3 pr-2 shadow-hairline backdrop-blur-[18px] backdrop-saturate-[1.4]"
+        className="pointer-events-auto relative mx-auto flex h-14 max-w-[960px] items-center justify-between gap-4 overflow-hidden rounded-full border border-line bg-surface/70 pl-3 pr-2 shadow-hairline backdrop-blur-[18px] backdrop-saturate-[1.4]"
       >
+        {/* reading progress */}
+        <motion.span
+          aria-hidden="true"
+          style={{ scaleX: progress }}
+          className="pointer-events-none absolute inset-x-6 bottom-0 h-px origin-left bg-gradient-to-r from-orange/0 via-orange to-orange-hot"
+        />
         <a href="#top" className="flex items-center gap-2.5 rounded-full pr-2" aria-label="Jovora — back to top">
           <Monogram size={32} />
           <Wordmark className="text-[24px] leading-none" />
@@ -64,8 +71,8 @@ export function NavCapsule() {
                 <a
                   href={item.href}
                   aria-current={isActive ? "true" : undefined}
-                  className={`rounded-full px-3.5 py-2 text-[14px] transition-colors duration-1 ${
-                    isActive ? "text-orange" : "text-muted hover:text-ink"
+                  className={`rounded-full px-3.5 py-2 text-[14px] transition-colors duration-2 ${
+                    isActive ? "bg-surface-2 text-ink" : "text-muted hover:text-ink"
                   }`}
                 >
                   {item.label}

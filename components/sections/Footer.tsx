@@ -5,7 +5,7 @@ import { resolveHref } from "@/lib/links";
 export function Footer() {
   const f = site.footer;
   return (
-    <footer className="relative overflow-hidden border-t border-line pb-10 pt-20">
+    <footer className="relative overflow-hidden section-divider pb-10 pt-20">
       <div className="container-x">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -51,7 +51,7 @@ export function Footer() {
             ))}
           </nav>
         </div>
-        <div className="mt-16 flex flex-col justify-between gap-3 border-t border-line pt-6 font-mono text-[12px] text-faint sm:flex-row">
+        <div className="mt-16 flex flex-col justify-between gap-3 section-divider pt-6 font-mono text-[12px] text-faint sm:flex-row">
           <p>{f.legalLeft}</p>
           <p>{f.legalRight}</p>
         </div>

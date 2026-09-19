@@ -1,12 +1,13 @@
 import type { Heading } from "@/content/site";
 
 /** Renders a heading with exactly one Instrument Serif italic accent word. */
-export function AccentText({ heading }: { heading: Heading }) {
+export function AccentText({ heading, glow = false }: { heading: Heading; glow?: boolean }) {
   const after = heading.after;
   const joiner = after && !/^[.,!?]/.test(after) && !after.startsWith(" ") ? " " : "";
   return (
     <>
-      {heading.before} <em className="accent">{heading.accent}</em>
+      {heading.before}{" "}
+      <em className={`accent ${glow ? "bg-gradient-to-br from-ink via-ink to-orange-hot bg-clip-text pr-[0.06em] text-transparent" : ""}`}>{heading.accent}</em>
       {joiner}
       {after}
     </>

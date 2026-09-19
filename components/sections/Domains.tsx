@@ -37,7 +37,7 @@ export function Domains() {
   const glowX = useTransform(scrollYProgress, [0, 1], pinned ? ["-12vw", "12vw"] : ["0vw", "0vw"]);
 
   return (
-    <section id="domains" ref={section} aria-labelledby="domains-title" className="domains-section relative border-t border-line">
+    <section id="domains" ref={section} aria-labelledby="domains-title" className="domains-section section-divider relative">
       <div className="domains-sticky relative overflow-hidden py-22 md:py-0">
         {/* L0 horizon glow: orange crossfading to amber (opacity + transform only) */}
         <motion.div aria-hidden="true" style={{ x: glowX }} className="pointer-events-none absolute inset-x-0 bottom-[-30vh] -z-10 mx-auto h-[70vh] w-[110vw] max-w-none">

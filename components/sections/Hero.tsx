@@ -39,7 +39,7 @@ export function Hero() {
       id="top"
       ref={ref}
       aria-labelledby="hero-title"
-      className="relative isolate flex min-h-[100svh] items-center overflow-hidden pb-24 pt-32"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pb-6 pt-32"
     >
       {/* L0 — Horizon: sun-glow (the star field is global) */}
       <ParallaxLayer speed={0.15} distance={700} className="pointer-events-none absolute inset-0 -z-30" aria-hidden>
@@ -65,33 +65,35 @@ export function Hero() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_45%_at_50%_52%,rgb(7_7_7/0.6),transparent_75%)]" />
 
       {/* L2 — Content */}
-      <motion.div style={{ opacity: contentOpacity, x: contentX, y: contentY }} className="container-x relative flex flex-col items-center text-center">
-        <Wordmark className="text-[40px] leading-none text-ink md:text-[52px]" />
-        <h1 id="hero-title" className="mt-8 max-w-[14ch] text-hero font-semibold">
-          <AccentText heading={hero.headline} />
-        </h1>
-        <p className="mt-7 max-w-[34rem] text-[17px] text-muted md:text-[19px]">{hero.sub}</p>
-        <a
-          href={hero.pill.href}
-          className="group mt-9 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/60 py-1.5 pl-2 pr-4 text-[14px] text-muted backdrop-blur-md transition-colors duration-2 hover:border-line-strong hover:text-ink"
-        >
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.08em] text-success">
-            <span aria-hidden="true" className="size-1.5 animate-pulse rounded-full bg-success" />
-            {hero.pill.tag}
-          </span>
-          <span className="hidden sm:inline">{hero.pill.label}</span>
-          <span className="sm:hidden">{hero.pill.shortLabel}</span>
-          <span aria-hidden="true" className="transition-transform duration-2 group-hover:translate-x-0.5">→</span>
-        </a>
-      </motion.div>
+      <div className="flex flex-1 items-center">
+        <motion.div style={{ opacity: contentOpacity, x: contentX, y: contentY }} className="container-x relative flex flex-col items-center text-center">
+          <Wordmark className="text-[40px] leading-none text-ink md:text-[52px]" />
+          <h1 id="hero-title" className="mt-8 max-w-[14ch] text-hero font-semibold">
+            <AccentText heading={hero.headline} glow />
+          </h1>
+          <p className="mt-7 max-w-[34rem] text-[17px] text-muted md:text-[19px]">{hero.sub}</p>
+          <a
+            href={hero.pill.href}
+            className="group mt-9 inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/60 py-1.5 pl-2 pr-4 text-[14px] text-muted backdrop-blur-md transition-colors duration-2 hover:border-line-strong hover:text-ink"
+          >
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.08em] text-success">
+              <span aria-hidden="true" className="size-1.5 animate-pulse rounded-full bg-success" />
+              {hero.pill.tag}
+            </span>
+            <span className="hidden sm:inline">{hero.pill.label}</span>
+            <span className="sm:hidden">{hero.pill.shortLabel}</span>
+            <span aria-hidden="true" className="transition-transform duration-2 group-hover:translate-x-0.5">→</span>
+          </a>
+        </motion.div>
+      </div>
 
       {/* Domains ticker */}
-      <Marquee items={domains.map((d) => d.title)} className="absolute inset-x-0 bottom-[136px] hidden sm:block [@media(max-height:760px)]:hidden" />
+      <Marquee items={domains.map((d) => d.title)} className="mt-12 hidden sm:block [@media(max-height:700px)]:hidden" />
 
       {/* Scroll cue — a thin orange line that grows as scrolling begins */}
-      <div aria-hidden="true" className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 [@media(max-height:560px)]:hidden">
+      <div aria-hidden="true" className="mt-6 flex flex-col items-center gap-3 [@media(max-height:560px)]:hidden">
         <span className="micro">{hero.scrollCue}</span>
-        <span className="scroll-cue-line block h-14 w-px bg-orange" />
+        <span className="scroll-cue-line block h-10 w-px bg-orange" />
       </div>
     </section>
   );

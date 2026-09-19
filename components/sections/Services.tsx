@@ -5,7 +5,7 @@ import { costPrinciples, services, servicesSection as s } from "@/content/servic
 
 export function Services() {
   return (
-    <section id="services" aria-labelledby="services-title" className="relative border-t border-line section-y">
+    <section id="services" aria-labelledby="services-title" className="relative section-divider section-y">
       <div className="container-x">
         <SectionHeader id="services-title" label={s.label} heading={s.heading} intro={s.intro} />
 

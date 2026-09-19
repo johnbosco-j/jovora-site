@@ -43,27 +43,6 @@ export const site = {
     scrollCue: "Scroll",
   },
 
-  principles: {
-    label: "What we hold to",
-    items: [
-      {
-        icon: "shield",
-        title: "Private by design",
-        body: "If it can run on your device, it does. Your data stays yours.",
-      },
-      {
-        icon: "gauge",
-        title: "Measured, not promised",
-        body: "Every claim we make has a benchmark behind it, and we publish how we tested.",
-      },
-      {
-        icon: "people",
-        title: "Built for people",
-        body: "Technology should protect attention, health and time — not harvest them.",
-      },
-    ],
-  },
-
   domainsSection: {
     label: "Domains",
     heading: { before: "Where we", accent: "work", after: "." },

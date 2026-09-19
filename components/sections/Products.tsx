@@ -14,7 +14,7 @@ export function Products() {
   const ghosts = domains.filter((d) => d.status === "In research");
 
   return (
-    <section id="products" aria-labelledby="products-title" className="relative border-t border-line section-y">
+    <section id="products" aria-labelledby="products-title" className="relative section-divider section-y">
       <div className="container-x">
         <SectionHeader id="products-title" label={s.label} heading={s.heading} intro={s.intro} />
         <div className="mt-14 md:mt-20">{featured && <ProductCard product={featured} />}</div>
