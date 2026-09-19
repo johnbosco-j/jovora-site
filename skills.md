@@ -9,7 +9,7 @@ Read `design.md` (visual system) and `prompt.md` (full brief) before changing an
 
 ## Who and what
 
-- **Jovora** is a multi-domain technology company founded and owned by **John Bosco J** (Chennai, India). It builds products across AI & machine perception, robotics & embedded systems, health & human wellbeing, developer tools, education and institutional platforms.
+- **Jovora** is a multi-domain technology company founded and owned by **Johnbosco J Elanjikal** (Chennai, India). It builds products across AI & machine perception, robotics & embedded systems, health & human wellbeing, developer tools, education and institutional platforms.
 - **Clareo** is Jovora's first product: private, on-device eye-fatigue, eye-strain and posture monitoring for people who work at screens all day.
 - The site's job: explain what Jovora is, show its products (each links out to its own domain), show the founder, and collect contact requests. It is not a product app.
 
@@ -26,7 +26,7 @@ Read `design.md` (visual system) and `prompt.md` (full brief) before changing an
 | Forms | Server action or route handler → email provider (Resend) with honeypot + rate limit | No third-party form widgets |
 | Hosting | Vercel | Preview deployments per PR |
 
-Do not add a CMS, UI kit (MUI/Chakra), jQuery, or heavy 3D libraries. If a 3D moment is truly needed, use a single lightweight `<canvas>` or SVG, not three.js on the landing page.
+Do not add a CMS, UI kit (MUI/Chakra) or jQuery. 3D: the hero orbit is CSS 3D; three.js is allowed **only** for Jovo (the About-section mascot) and must stay lazy-loaded (`lib/robot/scene.ts`, dynamic import on approach) so it never enters the initial bundle.
 
 ## Project structure
 
@@ -58,10 +58,10 @@ All copy and links go in `content/*.ts` with types, so adding a product or chang
 ```ts
 // content/site.ts
 export const LINKS = {
-  clareo: process.env.NEXT_PUBLIC_CLAREO_URL ?? "https://clareo.app", // replace with the purchased domain
+  clareo: "/clareo",                         // next.config.ts redirects to CLAREO_URL (default https://clareo.<site domain>)
   portfolio: process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "#founder",     // founder portfolio, coming later
   github: "https://github.com/johnbosco-j",
-  contactEmail: "hello@jovora.com",                                    // replace with the real company inbox
+  contactEmail: `hello@${SITE_HOST}`,         // jovora.com is owned by someone else — never use it
 };
 
 // content/products.ts
@@ -83,7 +83,7 @@ If a URL is still a placeholder (`#…` or the default), the button shows "Comin
 - **New product:** add an entry to `content/products.ts` (+ screenshot in `public/products/<slug>/`). The Products section renders the newest first; the first product with `featured: true` gets the large card.
 - **New domain:** add to `content/domains.ts` with `status` (`Shipping`, `In research`, `Coming`). Keep descriptions to one sentence.
 - **Founder portfolio live:** set `NEXT_PUBLIC_PORTFOLIO_URL` in Vercel; no code change.
-- **Clareo domain bought:** set `NEXT_PUBLIC_CLAREO_URL`; no code change.
+- **Clareo address:** lives at `clareo.<site domain>` by default (one domain for everything); set `NEXT_PUBLIC_CLAREO_URL` only if it moves.
 
 ## Conventions
 
