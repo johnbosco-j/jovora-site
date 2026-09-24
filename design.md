@@ -1,8 +1,8 @@
-# Jovora — Design System
+# Riven — Design System
 
-The visual language for **jovora** (the company site) and every future Jovora product surface.
+The visual language for **rivendevs** (the company site) and every future Riven product surface.
 Mood: **engineered, calm, deep.** A black studio lit by a single warm orange light.
-Product sites (like Clareo) keep their own identity; they inherit Jovora's type and spacing, not its colours.
+Product sites (like Clareo) keep their own identity; they inherit Riven's type and spacing, not its colours.
 
 ---
 
@@ -88,7 +88,7 @@ Parallax is the site's signature. It must feel physical and never make anyone si
 Speed factor = how far the layer moves relative to scroll (1.0 = normal).
 
 ### Signature moments
-1. **Hero "Orbit"** — Jovora wordmark centred; three concentric orange hairline rings rotate slowly (60–120s per turn) at different speeds; a small orange sphere travels one ring. Scrolling tilts the ring plane from face-on to ~65° (perspective) and fades the glow — the viewer "flies through" the rings into the page.
+1. **Hero "Orbit"** — Riven wordmark centred; three concentric orange hairline rings rotate slowly (60–120s per turn) at different speeds; a small orange sphere travels one ring. Scrolling tilts the ring plane from face-on to ~65° (perspective) and fades the glow — the viewer "flies through" the rings into the page.
 2. **Domains horizon** — sticky section (pinned ~200vh): domain tiles slide horizontally while the L0 horizon glow shifts hue from orange to amber; each tile lifts as it reaches centre.
 3. **Product reveal** — the Clareo card rises from L3 with a scale 0.92→1 and the card's own device mock parallaxes inside the card (inner parallax, max 40px).
 4. **Founder section** — portrait/monogram on L2, a faint orbit ring on L1 continues the hero motif (the story comes full circle).
@@ -119,7 +119,7 @@ Entrances: fade + 16px rise, staggered 60ms per item, triggered once when 20% in
 
 ## 7. Components
 
-**Nav capsule** (shared DNA with Clareo): floating, sticky 16px from top, pill-shaped, `--surface` at 72% opacity with `backdrop-filter: blur(18px) saturate(1.4)`, 1px border. Left: Jovora mark + wordmark. Centre: `Domains · Products · Founder · Contact`. Right: orange "Get in touch" button. Collapses to mark + menu button < 820px.
+**Nav capsule** (shared DNA with Clareo): floating, sticky 16px from top, pill-shaped, `--surface` at 72% opacity with `backdrop-filter: blur(18px) saturate(1.4)`, 1px border. Left: Riven mark + wordmark. Centre: `Domains · Products · Founder · Contact`. Right: orange "Get in touch" button. Collapses to mark + menu button < 820px.
 
 **Buttons**
 - Primary: orange fill, black text, 44px tall, radius 999, hover `--orange-hot`, focus ring 3px `--orange-glow` + 1px `--orange`.
@@ -149,9 +149,9 @@ Entrances: fade + 16px rise, staggered 60ms per item, triggered once when 20% in
 
 ## 9. Brand marks
 
-- **Jovora wordmark**: Instrument Serif, regular, tracking −0.02em; the second "o" can hold the orbit dot (a small orange circle offset on its bowl) as the logo's single animated element (slow orbit, 12s).
+- **Riven wordmark**: Instrument Serif, regular, tracking −0.02em; the second "o" can hold the orbit dot (a small orange circle offset on its bowl) as the logo's single animated element (slow orbit, 12s).
 - **Monogram**: a "J" inside an orange hairline ring on a `--surface` rounded square — used for favicon and app icons.
-- Product lockup: "Clareo — by Jovora" in footers and product pages only; product names otherwise stand alone.
+- Product lockup: "Clareo — by Riven" in footers and product pages only; product names otherwise stand alone.
 
 ---
 

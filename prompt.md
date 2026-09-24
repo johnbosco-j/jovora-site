@@ -1,4 +1,4 @@
-# Prompt — Build the Jovora website
+# Prompt — Build the Riven website
 
 > Paste everything below the line into your AI builder (Claude Code, Cursor, v0, Lovable, Bolt). Keep `design.md` and `skills.md` in the project root so the builder can read them; the key values are repeated here so this prompt also works on its own.
 
@@ -6,12 +6,12 @@
 
 ## Role
 
-You are a senior product designer and front-end engineer. Build the marketing website for **Jovora**, a new multi-domain technology company. Deliver production-quality code, not a mock-up: responsive, accessible, fast, and easy to extend with future products and domains.
+You are a senior product designer and front-end engineer. Build the marketing website for **Riven**, a new multi-domain technology company. Deliver production-quality code, not a mock-up: responsive, accessible, fast, and easy to extend with future products and domains.
 
-## About Jovora
+## About Riven
 
-- **Jovora** is a technology company founded and owned by **John Bosco J**, based in **Chennai, India**.
-- Jovora will work across many domains over time. Current and planned focus areas:
+- **Riven** is a technology company founded and owned by **John Bosco J**, based in **Chennai, India**.
+- Riven will work across many domains over time. Current and planned focus areas:
   1. **AI & Machine Perception** — models that see, hear and understand context, running on-device where possible.
   2. **Robotics & Embedded Systems** — perception and control for machines in the physical world; edge devices.
   3. **Health & Human Wellbeing** — tools that protect people's attention, eyes, posture and rest.
@@ -19,11 +19,11 @@ You are a senior product designer and front-end engineer. Build the marketing we
   5. **Education Technology** — learning platforms and tools for students and institutions.
   6. **Institutional & Enterprise Platforms** — ERP, workflow and data systems for colleges and organisations.
 - Personality: ambitious but grounded; engineering-led; privacy-first; honest about what's shipped vs in research.
-- The site must make Jovora feel like a serious, long-term company in the league of Anthropic, OpenAI or Apple — through restraint, depth and craft, not hype.
+- The site must make Riven feel like a serious, long-term company in the league of Anthropic, OpenAI or Apple — through restraint, depth and craft, not hype.
 
 ## Audience
 
-Early users, prospective collaborators and hires, college and industry partners, and investors who want to understand what Jovora is and who is behind it in under a minute.
+Early users, prospective collaborators and hires, college and industry partners, and investors who want to understand what Riven is and who is behind it in under a minute.
 
 ## Tech requirements
 
@@ -40,14 +40,14 @@ Early users, prospective collaborators and hires, college and industry partners,
 - Orange is rare: one accent fill per viewport. Depth comes from parallax layers, soft radial orange glows and a 3% film-grain overlay.
 - **Type:** Instrument Sans (headings 600, tight tracking), Instrument Serif *italic* for one accent word per heading, DM Mono for numbers and micro-labels. Hero size `clamp(56px, 9vw, 132px)`.
 - **Layout:** 12-column grid, max width 1240px, generous section padding (128–176px desktop). Radius 20px cards, 999px pills. Floating glass **nav capsule**.
-- Visual DNA shared with the Clareo product site: floating capsule nav, serif-italic accent words, mono numerals — but Jovora uses orange instead of Clareo's lime.
+- Visual DNA shared with the Clareo product site: floating capsule nav, serif-italic accent words, mono numerals — but Riven uses orange instead of Clareo's lime.
 
 ## Parallax UX (the signature)
 
 Use four layers: **L0 horizon (0.15× scroll), L1 atmosphere (0.35×), L2 content (1×), L3 foreground (1.2–1.4×)**. Animate only `transform` and `opacity`. Prefer CSS scroll-driven animations with a Framer Motion fallback.
 
 Signature moments:
-1. **Hero "Orbit":** the Jovora wordmark centred inside three concentric thin orange rings rotating at different slow speeds, with a small orange sphere travelling one ring. On scroll the ring plane tilts from face-on to ~65° and the glow fades, so the visitor "flies through" the rings into the site.
+1. **Hero "Orbit":** the Riven wordmark centred inside three concentric thin orange rings rotating at different slow speeds, with a small orange sphere travelling one ring. On scroll the ring plane tilts from face-on to ~65° and the glow fades, so the visitor "flies through" the rings into the site.
 2. **Domains horizon:** a pinned section (~200vh desktop) where six domain tiles slide horizontally; the background glow drifts from orange to amber; the centred tile lifts and brightens.
 3. **Product reveal:** the Clareo card rises from the foreground layer (scale 0.92 → 1) while its screenshot parallaxes inside the card frame.
 4. **Founder:** the orbit ring motif returns faintly behind the founder card, closing the loop from the hero.
@@ -59,13 +59,13 @@ Rules: `prefers-reduced-motion` disables all parallax, pinning and rotation (con
 Write polished final copy; the drafts below set the tone and facts. Keep sentences short.
 
 ### 1. Nav capsule
-Jovora mark + wordmark · links: **Domains · Products · Founder · Contact** · orange button **Get in touch**. Collapses to a menu button under 820px.
+Riven mark + wordmark · links: **Domains · Products · Founder · Contact** · orange button **Get in touch**. Collapses to a menu button under 820px.
 
 ### 2. Hero
-- Micro-label (mono): `JOVORA · CHENNAI · EST. 2026`
+- Micro-label (mono): `RIVENDEVS · CHENNAI · EST. 2026`
 - Headline: **We build *clear* technology for the real world.**
   (Alternatives to test: "Intelligent systems, *honestly* built." / "One company. *Many* frontiers.")
-- Sub-copy: "Jovora is a technology company working across AI, robotics, health, developer tools and education. We take one hard problem at a time and ship it properly."
+- Sub-copy: "Riven is a technology company working across AI, robotics, health, developer tools and education. We take one hard problem at a time and ship it properly."
 - Buttons: **Explore our products** (scrolls to Products) · **Meet the founder** (secondary, scrolls to Founder).
 - Scroll cue: a thin orange line that grows as you begin to scroll.
 
@@ -84,7 +84,7 @@ Heading: "Where we *work*." Six tiles with mono index, line icon, one-sentence d
 - 06 Institutional & Enterprise Platforms — `Coming`
 
 ### 5. Products
-Heading: "What we've *built*." Featured product card for **Clareo**, then a row of ghost cards reading "Next from Jovora — in research" so the section scales as products are added.
+Heading: "What we've *built*." Featured product card for **Clareo**, then a row of ghost cards reading "Next from Riven — in research" so the section scales as products are added.
 
 **Clareo card content:**
 - Name: **Clareo** · chip `Live · Web + Desktop` · domain chip `Health & Wellbeing · AI`
@@ -123,15 +123,15 @@ Founder card (monogram "JB" inside an orange orbit ring — or a photo if provid
 - Do **not** show the founder's phone number or personal email anywhere on the site.
 
 ### 8. Contact
-Heading: "Let's build something *clear*." Short form: name, email, what it's about (select: Partnership · Hiring · Product feedback · Press · Other), message. Honeypot field + server-side rate limit. On success show an inline confirmation (no page reload). Also show the company email as text (placeholder `hello@jovora.com`, from `content/site.ts`).
+Heading: "Let's build something *clear*." Short form: name, email, what it's about (select: Partnership · Hiring · Product feedback · Press · Other), message. Honeypot field + server-side rate limit. On success show an inline confirmation (no page reload). Also show the company email as text (placeholder `hello@rivendevs.in`, from `content/site.ts`).
 
 ### 9. Footer
-Jovora wordmark, one-line mission, columns: Company (About, Domains, Founder), Products (Clareo ↗), Connect (GitHub ↗, Contact). Bottom row: "© 2026 Jovora · Chennai, India" and "Clareo is a product of Jovora."
+Riven wordmark, one-line mission, columns: Company (About, Domains, Founder), Products (Clareo ↗), Connect (GitHub ↗, Contact). Bottom row: "© 2026 Riven · Chennai, India" and "Clareo is a product of Riven."
 
 ## SEO & metadata
-- Title: "Jovora — Clear technology for the real world"
-- Description: "Jovora is a Chennai-based technology company building across AI, robotics, health, developer tools and education. Makers of Clareo."
-- Open Graph image 1200×630: black background, orange orbit rings, Jovora wordmark.
+- Title: "Riven — Clear technology for the real world"
+- Description: "Riven is a Chennai-based technology company building across AI, robotics, health, developer tools and education. Makers of Clareo."
+- Open Graph image 1200×630: black background, orange orbit rings, Riven wordmark.
 - Organization JSON-LD (name, url, founder: John Bosco J, sameAs: GitHub); `robots.txt`, `sitemap.xml`, favicon from the "J in orbit" monogram.
 
 ## Acceptance criteria

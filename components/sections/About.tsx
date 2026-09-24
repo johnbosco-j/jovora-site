@@ -8,15 +8,15 @@ import { Button } from "@/components/ui/Button";
 import { about } from "@/content/about";
 
 /**
- * Who we are + why we're different, with Jovo.
+ * Who we are + why we're different, with Riv.
  *
- * The active "why" point drives Jovo's gesture and speech bubble.
- *  - Laptop: Jovo sticks beside the copy; hover or focus a point.
+ * The active "why" point drives Riv's gesture and speech bubble.
+ *  - Laptop: Riv sticks beside the copy; hover or focus a point.
  *  - Tablet: same layout; points activate as they scroll through the middle of the screen.
- *  - Phone: Jovo sits inline (never over the text) right above a 3D ring of square
- *    point cards that turns on its own; Jovo reacts to the card in front.
+ *  - Phone: Riv sits inline (never over the text) right above a 3D ring of square
+ *    point cards that turns on its own; Riv reacts to the card in front.
  *
- * Only one Jovo is ever initialised: the other instance is display:none, so its
+ * Only one Riv is ever initialised: the other instance is display:none, so its
  * lazy loader never fires.
  */
 export function About() {
@@ -41,14 +41,14 @@ export function About() {
 
 
   const current = active === null ? null : about.why[active];
-  const jovo = <RobotStage mascot={about.mascot} active={current ? { emote: current.emote, says: current.says } : null} />;
+  const riv = <RobotStage mascot={about.mascot} active={current ? { emote: current.emote, says: current.says } : null} />;
 
   return (
     <section id="about" aria-labelledby="about-title" className="section-divider relative overflow-x-clip section-y">
       <div className="container-x md:grid md:grid-cols-12 md:gap-8 lg:gap-12">
-        {/* Tablet & laptop: Jovo sticky beside the copy */}
+        {/* Tablet & laptop: Riv sticky beside the copy */}
         <div className="hidden md:order-last md:col-span-5 md:block">
-          <div className="md:sticky md:top-[14vh] lg:top-[12vh]">{jovo}</div>
+          <div className="md:sticky md:top-[14vh] lg:top-[12vh]">{riv}</div>
         </div>
 
         <div className="md:col-span-7">
@@ -79,8 +79,8 @@ export function About() {
               <AccentText heading={about.whyHeading} />
             </h3>
 
-            {/* Phone: Jovo inline, directly above the 3D ring of cards it talks about */}
-            <div className="-mx-1 mt-8 md:hidden">{jovo}</div>
+            {/* Phone: Riv inline, directly above the 3D ring of cards it talks about */}
+            <div className="-mx-1 mt-8 md:hidden">{riv}</div>
             <div className="mt-6 md:hidden">
               <WhyCarousel3D points={about.why} onActive={setActive} />
             </div>

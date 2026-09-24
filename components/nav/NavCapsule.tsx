@@ -66,7 +66,7 @@ export function NavCapsule() {
           style={{ scaleX: progress }}
           className="pointer-events-none absolute inset-x-6 bottom-0 h-px origin-left bg-gradient-to-r from-orange/0 via-orange to-orange-hot"
         />
-        <a href="#top" className="flex items-center gap-2.5 rounded-full pr-2" aria-label="Jovora — back to top">
+        <a href="#top" className="flex items-center gap-2.5 rounded-full pr-2" aria-label="Riven — back to top">
           <Monogram size={32} />
           <Wordmark className="text-[24px] leading-none" />
         </a>

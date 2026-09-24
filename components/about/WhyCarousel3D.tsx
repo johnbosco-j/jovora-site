@@ -10,7 +10,7 @@ const INTERVAL = 3800; // ms each card stays in front
 /**
  * Phones: the "why" points as square cards on a rotating 3D ring. It turns on its
  * own (one card every few seconds), only while on screen, and reports the front
- * card so Jovo can react. Reduced motion: no auto-turn and no spin — the dots switch
+ * card so Riv can react. Reduced motion: no auto-turn and no spin — the dots switch
  * cards instantly.
  */
 export function WhyCarousel3D({ points, onActive }: { points: Point[]; onActive: (i: number) => void }) {

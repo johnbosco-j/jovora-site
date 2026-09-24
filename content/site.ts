@@ -2,17 +2,17 @@
 
 const env = (value: string | undefined) => (value && value.trim().length > 0 ? value.trim() : undefined);
 
-export const SITE_URL = env(process.env.NEXT_PUBLIC_SITE_URL) ?? "https://jovora.ai";
+export const SITE_URL = env(process.env.NEXT_PUBLIC_SITE_URL) ?? "https://rivendevs.in";
 const SITE_HOST = new URL(SITE_URL).host.replace(/^www\./, "");
 
 /**
- * Where Clareo actually lives. Default: a subdomain of the Jovora domain
- * (clareo.jovora.ai), so only one domain needs buying. Override with NEXT_PUBLIC_CLAREO_URL.
+ * Where Clareo actually lives. Default: a subdomain of the Riven domain
+ * (clareo.rivendevs.in), so only one domain needs buying. Override with NEXT_PUBLIC_CLAREO_URL.
  */
 export const CLAREO_URL = env(process.env.NEXT_PUBLIC_CLAREO_URL) ?? `https://clareo.${SITE_HOST}`;
 
 export const LINKS = {
-  /** Short link on the Jovora site; next.config.ts redirects /clareo → CLAREO_URL. */
+  /** Short link on the Riven site; next.config.ts redirects /clareo → CLAREO_URL. */
   clareo: "/clareo",
   /** Shown in the product card's browser bar. */
   clareoDisplay: CLAREO_URL.replace(/^https?:\/\//, ""),
@@ -25,12 +25,12 @@ export const LINKS = {
 export type NavItem = { label: string; href: `#${string}` };
 
 export const site = {
-  name: "Jovora",
+  name: "Riven",
   city: "Chennai, India",
   founded: 2026,
-  title: "Jovora — Clear technology for the real world",
+  title: "Riven — Clear technology for the real world",
   description:
-    "Jovora is a Chennai-based technology company building across AI, robotics, health, developer tools and education. Makers of Clareo. We also build full-stack websites and AI solutions for clients at a minimal, optimal cost.",
+    "Riven is a Chennai-based technology company building across AI, robotics, health, developer tools and education. Makers of Clareo. We also build full-stack websites and AI solutions for clients at a minimal, optimal cost.",
   mission: "Clear technology for the real world.",
 
   nav: [
@@ -46,7 +46,7 @@ export const site = {
     // Headline is split so exactly one word gets the serif-italic accent.
     headline: { before: "We build", accent: "clear", after: "technology for the real world." },
     motionPrompt: "Tap · move it with your phone",
-    sub: "Jovora is a technology company working across AI, robotics, health, developer tools and education. We take one hard problem at a time and ship it properly.",
+    sub: "Riven is a technology company working across AI, robotics, health, developer tools and education. We take one hard problem at a time and ship it properly.",
   },
 
   domainsSection: {
@@ -59,7 +59,7 @@ export const site = {
     label: "Products",
     heading: { before: "What we’ve", accent: "built", after: "." },
     intro: "Each product lives on its own domain. This is where they start.",
-    ghostLabel: "Next from Jovora",
+    ghostLabel: "Next from Riven",
     ghostStatus: "In research",
   },
 
@@ -107,7 +107,9 @@ export const site = {
         ],
       },
     ],
-    legalLeft: "© 2026 Jovora · Chennai, India",
+    legalLeft: "© 2026 Riven · Chennai, India",
+    /** Engineering studio credit shown beside the copyright line. */
+    legalRight: "Built by RivenDevs",
   },
 } as const;
 

@@ -6,7 +6,7 @@ export const about = {
   label: "Who we are",
   // Rendered in Instrument Serif; `accent` words are set in italic orange-free ink.
   statement: [
-    { text: "Jovora is a young, engineering-led technology company from Chennai. We build our " },
+    { text: "Riven is a young, engineering-led technology company from Chennai. We build our " },
     { text: "own", accent: true },
     { text: " products — and we build for people who need software done " },
     { text: "properly", accent: true },
@@ -21,7 +21,7 @@ export const about = {
     { text: "." },
   ],
   detail: [
-    "Founded in 2026 by Johnbosco J Elanjikal, Jovora works across AI, robotics, health, developer tools and education — one hard problem at a time. Our first product, Clareo, protects the eyes and posture of people who work at screens all day.",
+    "Founded in 2026 by Johnbosco J Elanjikal, Riven works across AI, robotics, health, developer tools and education — one hard problem at a time. Our first product, Clareo, protects the eyes and posture of people who work at screens all day.",
     "Alongside our own products we design and build websites, web apps and AI systems for clients, at a minimal, honest cost.",
   ],
 
@@ -62,10 +62,10 @@ export const about = {
 
   // The robot mascot. Rename freely.
   mascot: {
-    name: "Jovo",
-    role: "Jovora’s assistant",
-    greeting: "Hi, I’m Jovo. Hover over any reason and I’ll explain it.",
-    touchGreeting: "Hi, I’m Jovo. Move through the reasons and I’ll explain each one.",
+    name: "Riv",
+    role: "Riven’s assistant",
+    greeting: "Hi, I’m Riv. Hover over any reason and I’ll explain it.",
+    touchGreeting: "Hi, I’m Riv. Move through the reasons and I’ll explain each one.",
     clicks: [
       { emote: "Wave", says: "Hello again!" },
       { emote: "ThumbsUp", says: "Clear tech gets a thumbs-up." },

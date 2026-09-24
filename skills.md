@@ -1,17 +1,17 @@
 ---
-name: jovora-site
-description: Build and maintain jovora — the Jovora company website (parallax, black/gray/orange). Use when creating the site, adding a product or domain, editing founder details, or changing the site's design, content or deployment.
+name: rivendevs-site
+description: Build and maintain rivendevs — the Riven company website (parallax, black/gray/orange). Use when creating the site, adding a product or domain, editing founder details, or changing the site's design, content or deployment.
 ---
 
-# Jovora site — build & maintenance skill
+# Riven site — build & maintenance skill
 
 Read `design.md` (visual system) and `prompt.md` (full brief) before changing anything. This file is the working rulebook: stack, structure, conventions and the checklist every change must pass.
 
 ## Who and what
 
-- **Jovora** is a multi-domain technology company founded and owned by **Johnbosco J Elanjikal** (Chennai, India), a **current third-year B.E. CSE student at LICET — not a graduate**. Never describe him as a graduate or alumnus; update the year in `content/founder.ts` each academic year. It builds products across AI & machine perception, robotics & embedded systems, health & human wellbeing, developer tools, education and institutional platforms.
-- **Clareo** is Jovora's first product: private, on-device eye-fatigue, eye-strain and posture monitoring for people who work at screens all day.
-- The site's job: explain what Jovora is, show its products (each links out to its own domain), show the founder, and collect contact requests. It is not a product app.
+- **Riven** is a multi-domain technology company founded and owned by **Johnbosco J Elanjikal** (Chennai, India), a **current third-year B.E. CSE student at LICET — not a graduate**. Never describe him as a graduate or alumnus; update the year in `content/founder.ts` each academic year. It builds products across AI & machine perception, robotics & embedded systems, health & human wellbeing, developer tools, education and institutional platforms.
+- **Clareo** is Riven's first product: private, on-device eye-fatigue, eye-strain and posture monitoring for people who work at screens all day.
+- The site's job: explain what Riven is, show its products (each links out to its own domain), show the founder, and collect contact requests. It is not a product app.
 
 ## Stack (keep it)
 
@@ -26,12 +26,12 @@ Read `design.md` (visual system) and `prompt.md` (full brief) before changing an
 | Forms | Server action or route handler → email provider (Resend) with honeypot + rate limit | No third-party form widgets |
 | Hosting | Vercel | Preview deployments per PR |
 
-Do not add a CMS, UI kit (MUI/Chakra) or jQuery. 3D: the hero orbit is CSS 3D; three.js is allowed **only** for Jovo (the About-section mascot) and must stay lazy-loaded (`lib/robot/scene.ts`, dynamic import on approach) so it never enters the initial bundle.
+Do not add a CMS, UI kit (MUI/Chakra) or jQuery. 3D: the hero orbit is CSS 3D; three.js is allowed **only** for Riv (the About-section mascot) and must stay lazy-loaded (`lib/robot/scene.ts`, dynamic import on approach) so it never enters the initial bundle.
 
 ## Project structure
 
 ```
-jovora-site/
+rivendevs-site/
   app/
     layout.tsx            fonts, metadata, <SkipLink/>, grain overlay
     page.tsx              composes sections in order
@@ -61,7 +61,7 @@ export const LINKS = {
   clareo: "/clareo",                         // next.config.ts redirects to CLAREO_URL (default https://clareo.<site domain>)
   portfolio: process.env.NEXT_PUBLIC_PORTFOLIO_URL ?? "#founder",     // founder portfolio, coming later
   github: "https://github.com/johnbosco-j",
-  contactEmail: `hello@${SITE_HOST}`,         // jovora.com is owned by someone else — never use it
+  contactEmail: `hello@${SITE_HOST}`,         // create this inbox once the domain is bought
 };
 
 // content/products.ts
@@ -120,5 +120,5 @@ npm run typecheck
 ## Don'ts
 
 - Don't autoplay audio or video with sound, show cookie banners for non-essential tracking, or add chat widgets.
-- Don't use the Clareo lime colour on Jovora pages; Clareo keeps its own identity on its own domain.
+- Don't use the Clareo lime colour on Riven pages; Clareo keeps its own identity on its own domain.
 - Don't let marketing copy claim medical accuracy for Clareo. It is a wellness tool, not a medical device.

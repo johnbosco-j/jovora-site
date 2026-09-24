@@ -8,7 +8,7 @@ export const contentType = "image/png";
 async function serif() {
   // Instrument Serif for the wordmark; falls back to the default font if offline at build.
   try {
-    const css = await fetch("https://fonts.googleapis.com/css2?family=Instrument+Serif&text=Jovora", {
+    const css = await fetch("https://fonts.googleapis.com/css2?family=Instrument+Serif&text=Riven", {
       headers: { "User-Agent": "Mozilla/5.0 (Macintosh) AppleWebKit/533 (KHTML) Safari/533" },
     }).then((r) => r.text());
     const url = css.match(/src: url\((.+?)\) format\('(?:opentype|truetype|woff)'\)/)?.[1];
@@ -30,7 +30,7 @@ export default async function OgImage() {
         ))}
         <div style={{ position: "absolute", left: 600 + 280 * Math.cos(-0.6) - 9, top: 315 + 280 * Math.sin(-0.6) - 9, width: 18, height: 18, borderRadius: 9999, background: "#FF6A1A", display: "flex" }} />
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ fontSize: 140, color: "#F4F2EE", ...(font ? { fontFamily: "Instrument Serif" } : {}), letterSpacing: -3, lineHeight: 1 }}>Jovora</div>
+          <div style={{ fontSize: 140, color: "#F4F2EE", ...(font ? { fontFamily: "Instrument Serif" } : {}), letterSpacing: -3, lineHeight: 1 }}>Riven</div>
           <div style={{ marginTop: 24, fontSize: 22, color: "#A3A1A0", letterSpacing: 4, textTransform: "uppercase" }}>Clear technology for the real world</div>
         </div>
       </div>

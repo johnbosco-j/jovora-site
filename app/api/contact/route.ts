@@ -61,10 +61,10 @@ export async function POST(req: Request) {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: process.env.CONTACT_FROM_EMAIL || "Jovora <noreply@jovora.ai>",
+      from: process.env.CONTACT_FROM_EMAIL || "Riven <noreply@rivendevs.in>",
       to: [to],
       reply_to: email,
-      subject: `[Jovora · ${topic}] ${name}`,
+      subject: `[Riven · ${topic}] ${name}`,
       html: `<p><strong>${esc(name)}</strong> &lt;${esc(email)}&gt; — ${esc(topic)}</p><p style="white-space:pre-wrap">${esc(message)}</p>`,
     }),
   });

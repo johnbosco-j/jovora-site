@@ -15,7 +15,7 @@ type Mascot = {
 };
 
 /**
- * Jovo — the interactive mascot, presented as a small "companion console":
+ * Riv — the interactive mascot, presented as a small "companion console":
  * HUD frame, live status, and a speech bubble that explains whichever point is active.
  *
  *  - Laptop: gaze follows the cursor anywhere; a quick flick surprises it; leaving the
@@ -166,7 +166,7 @@ export function RobotStage({
         noteActivity();
       };
       cleanups.push(tiltX.on("change", update), tiltY.on("change", update));
-      // Shake the phone → Jovo is startled and hops.
+      // Shake the phone → Riv is startled and hops.
       let lastShake = 0;
       cleanups.push(
         shakeEnergy.on("change", (v) => {
@@ -227,7 +227,7 @@ export function RobotStage({
         </span>
       </div>
 
-      {/* Phones: Jovo left, bubble right. Tablet/desktop: bubble above Jovo. */}
+      {/* Phones: Riv left, bubble right. Tablet/desktop: bubble above Riv. */}
       <div className="grid grid-cols-[46%_1fr] items-center md:block">
         {/* Speech bubble */}
         <div className="relative z-10 order-2 flex pr-4 md:min-h-[84px] md:justify-center md:px-5 md:pt-4 lg:min-h-[76px]">
@@ -237,7 +237,7 @@ export function RobotStage({
             className="bubble-in relative max-w-[30ch] rounded-2xl border border-line bg-surface-2/90 px-3.5 py-2.5 text-[13px] leading-snug text-ink shadow-hairline md:px-4 md:text-center md:text-[14px] lg:text-[15px]"
           >
             {bubble}
-            {/* tail: points left at Jovo on phones, down on larger screens */}
+            {/* tail: points left at Riv on phones, down on larger screens */}
             <span aria-hidden="true" className="absolute -left-[6px] top-1/2 size-3 -translate-y-1/2 rotate-45 border-b border-l border-line bg-surface-2 md:hidden" />
             <span aria-hidden="true" className="absolute -bottom-[6px] left-1/2 hidden size-3 -translate-x-1/2 rotate-45 border-b border-r border-line bg-surface-2 md:block" />
           </p>
@@ -247,7 +247,7 @@ export function RobotStage({
         <button
           type="button"
           onClick={onPress}
-          aria-label={`${mascot.name}, Jovora’s robot — press to make it react`}
+          aria-label={`${mascot.name}, Riven’s robot — press to make it react`}
           className="relative z-0 order-1 block h-[200px] w-full cursor-pointer touch-manipulation focus-visible:outline-offset-[-6px] md:-mt-2 md:mb-4 md:h-[min(50vh,480px)] lg:h-[min(58vh,560px)]"
         >
           <div ref={mount} aria-hidden="true" className="absolute inset-0" />

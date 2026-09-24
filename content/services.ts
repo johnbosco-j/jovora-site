@@ -1,4 +1,4 @@
-// Client work Jovora takes on. Copy only — the Services section renders whatever is here.
+// Client work Riven takes on. Copy only — the Services section renders whatever is here.
 
 export type Service = {
   id: string;
@@ -14,7 +14,7 @@ export const servicesSection = {
   label: "Services",
   heading: { before: "Built for", accent: "you", after: ", too." },
   intro:
-    "Jovora also builds for people and organisations who need it — full-stack websites and AI development at a minimal, optimal cost, with the same engineering standard we hold our own products to.",
+    "Riven also builds for people and organisations who need it — full-stack websites and AI development at a minimal, optimal cost, with the same engineering standard we hold our own products to.",
   cta: { label: "Start a project", href: "#contact" },
   costTitle: "How we keep cost minimal",
 };

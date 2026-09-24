@@ -1,6 +1,6 @@
-# Jovora — company website
+# Riven — company website
 
-Marketing site for **Jovora**: black / gray / orange, four-layer parallax, orbit hero.
+Marketing site for **Riven**: black / gray / orange, four-layer parallax, orbit hero.
 Built from `prompt.md` (brief), `design.md` (visual system) and `skills.md` (rulebook).
 
 **Stack:** Next.js 16 (App Router) · TypeScript (strict) · Tailwind CSS 3 · Framer Motion · `next/font` · lucide-react.
@@ -24,21 +24,21 @@ npm run dev                  # http://localhost:3000
 
 | Variable | Default | Effect |
 |---|---|---|
-| `NEXT_PUBLIC_CLAREO_URL` | `https://clareo.<site domain>` | Where Clareo lives. "Visit Clareo" and the footer link go to `/clareo` on the Jovora site, which redirects here. |
+| `NEXT_PUBLIC_CLAREO_URL` | `https://clareo.<site domain>` | Where Clareo lives. "Visit Clareo" and the footer link go to `/clareo` on the Riven site, which redirects here. |
 | `NEXT_PUBLIC_PORTFOLIO_URL` | unset | Founder portfolio. While unset, the button reads "Portfolio — coming soon" and can't be clicked. |
-| `NEXT_PUBLIC_SITE_URL` | `https://jovora.ai` | Canonical URL for metadata, sitemap and JSON-LD. |
+| `NEXT_PUBLIC_SITE_URL` | `https://rivendevs.in` | Canonical URL for metadata, sitemap and JSON-LD. |
 | `RESEND_API_KEY`, `CONTACT_TO_EMAIL` | unset | When both are set, contact messages are emailed through Resend. Otherwise they are only logged on the server. |
-| `CONTACT_FROM_EMAIL` | `Jovora <noreply@jovora.ai>` | Sender address. Its domain must be verified in Resend. |
+| `CONTACT_FROM_EMAIL` | `Riven <noreply@rivendevs.in>` | Sender address. Its domain must be verified in Resend. |
 
 `NEXT_PUBLIC_*` values are read at build time, so redeploy after changing them.
 
-## Domains: one domain for Jovora and Clareo
+## Domains: one domain for Riven and Clareo
 
-Buy one domain (for example `jovora.ai`). Then:
+Buy one domain (for example `rivendevs.in`). Then:
 
-1. **Jovora site:** in the Vercel project for this repo, add `jovora.ai` and `www.jovora.ai`, and set `NEXT_PUBLIC_SITE_URL=https://jovora.ai`.
-2. **Clareo:** in Clareo's own Vercel project (or wherever the Clareo app is hosted), add `clareo.jovora.ai`. At your registrar, point `clareo` to it with a CNAME record, following the value Vercel shows.
-3. The "Visit Clareo" button goes to `jovora.ai/clareo`, which redirects to `https://clareo.jovora.ai`. Nothing else needs changing.
+1. **Riven site:** in the Vercel project for this repo, add `rivendevs.in` and `www.rivendevs.in`, and set `NEXT_PUBLIC_SITE_URL=https://rivendevs.in`.
+2. **Clareo:** in Clareo's own Vercel project (or wherever the Clareo app is hosted), add `clareo.rivendevs.in`. At your registrar, point `clareo` to it with a CNAME record, following the value Vercel shows.
+3. The "Visit Clareo" button goes to `rivendevs.in/clareo`, which redirects to `https://clareo.rivendevs.in`. Nothing else needs changing.
 
 ## Deploy (Vercel)
 
@@ -55,8 +55,8 @@ components/
   nav/          NavCapsule — floating glass capsule, menu button under 820px
   parallax/     ParallaxLayer — scroll-linked layers (speed prop)
                 AmbientBackground — site-wide drifting star field + glow orbs (canvas)
-  about/        RobotStage — Jovo, the interactive 3D mascot console (HUD, speech bubble; lazy-loads three.js + model)
-  sections/     Hero (+ Orbit), About (who we are / why we're different, synced with Jovo), Domains (pinned horizon), Products,
+  about/        RobotStage — Riv, the interactive 3D mascot console (HUD, speech bubble; lazy-loads three.js + model)
+  sections/     Hero (+ Orbit), About (who we are / why we're different, synced with Riv), Domains (pinned horizon), Products,
                 Services, Process, Founder, Contact (+ ContactForm), Footer
   ui/           Button, Chip, Stat, DomainTile, ProductCard, ClareoMock, FounderCard, Icon
   brand/        Wordmark (orbiting dot on the second "o"), Monogram
@@ -66,8 +66,8 @@ content/        site.ts · about.ts · domains.ts · products.ts · services.ts 
 ## Editing content
 
 - **New product:** add an entry to `content/products.ts`. Optionally add a screenshot in `public/products/<slug>/` and set `screenshot`. The first product with `featured: true` gets the large card, and the others render below it.
-- **New domain:** add an entry to `content/domains.ts` with `status` set to `Shipping`, `In research` or `Coming`. Domains marked "In research" also appear as ghost "Next from Jovora" cards under Products.
-- **Who we are / why we're different:** edit `content/about.ts`. Each "why" point has an `emote` (Wave, ThumbsUp, Yes, Jump, Dance, No, Punch) and a `says` line. When the point is hovered, focused, or scrolled to on mobile, Jovo plays the gesture and shows the line in its speech bubble. The mascot's name, greeting, click reactions and status labels are under `mascot`.
+- **New domain:** add an entry to `content/domains.ts` with `status` set to `Shipping`, `In research` or `Coming`. Domains marked "In research" also appear as ghost "Next from Riven" cards under Products.
+- **Who we are / why we're different:** edit `content/about.ts`. Each "why" point has an `emote` (Wave, ThumbsUp, Yes, Jump, Dance, No, Punch) and a `says` line. When the point is hovered, focused, or scrolled to on mobile, Riv plays the gesture and shows the line in its speech bubble. The mascot's name, greeting, click reactions and status labels are under `mascot`.
 - **Services / client work:** edit `content/services.ts` — offerings, their tags and the three "how we keep cost minimal" commitments.
 - **Clareo or portfolio URL ready:** set the env var and redeploy. No code changes needed.
 
@@ -97,4 +97,4 @@ content/        site.ts · about.ts · domains.ts · products.ts · services.ts 
 
 ## Credits
 
-- Robot model: **RobotExpressive** by [Tomás Laulhé (Quaternius)](https://www.patreon.com/quaternius), with facial expressions added by [Don McCurdy](https://donmccurdy.com/), from the three.js examples. Licensed **CC0 1.0**. Jovora's version is recoloured at runtime.
+- Robot model: **RobotExpressive** by [Tomás Laulhé (Quaternius)](https://www.patreon.com/quaternius), with facial expressions added by [Don McCurdy](https://donmccurdy.com/), from the three.js examples. Licensed **CC0 1.0**. Riven's version is recoloured at runtime.

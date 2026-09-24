@@ -9,7 +9,7 @@ export function Footer() {
       <div className="container-x">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <a href="#top" className="inline-flex items-center gap-3 rounded-full" aria-label="Jovora — back to top">
+            <a href="#top" className="inline-flex items-center gap-3 rounded-full" aria-label="Riven — back to top">
               <Monogram size={36} />
               <Wordmark className="text-[32px] leading-none" />
             </a>
@@ -53,13 +53,14 @@ export function Footer() {
         </div>
         <div className="mt-16 flex flex-col justify-between gap-3 section-divider pt-6 font-mono text-[12px] text-faint sm:flex-row">
           <p>{f.legalLeft}</p>
+          <p>{f.legalRight}</p>
         </div>
       </div>
       <p
         aria-hidden="true"
         className="pointer-events-none mt-10 select-none text-center font-serif text-[30vw] leading-[0.75] tracking-[-0.03em] text-transparent [-webkit-text-stroke:1px_rgb(244_242_238/0.1)] bg-[linear-gradient(to_bottom,rgb(255_106_26/0.18),transparent_85%)] bg-clip-text"
       >
-        Jovora
+        Riven
       </p>
     </footer>
   );

@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: { formats: ["image/avif", "image/webp"] },
-  // jovora.ai/clareo → Clareo (subdomain by default). One link to share, one place to change.
+  // rivendevs.in/clareo → Clareo (subdomain by default). One link to share, one place to change.
   async redirects() {
     return [{ source: "/clareo", destination: CLAREO_URL, permanent: false }];
   },
