@@ -1,6 +1,6 @@
 # Riven — Design System
 
-The visual language for **rivendevs** (the company site) and every future Riven product surface.
+The visual language for **Riven** (the company site, built by RivenDevs) and every future Riven product surface.
 Mood: **engineered, calm, deep.** A black studio lit by a single warm orange light.
 Product sites (like Clareo) keep their own identity; they inherit Riven's type and spacing, not its colours.
 

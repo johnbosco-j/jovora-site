@@ -13,7 +13,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
             <span className="-mt-[0.1em] block size-[0.13em] rounded-full bg-orange" />
           </span>
         </span>
-        nDevs
+        n
       </span>
     </span>
   );
@@ -26,17 +26,14 @@ export function Monogram({ size = 32, className = "" }: { size?: number; classNa
       <rect width="64" height="64" rx="16" className="fill-surface" />
       <circle cx="32" cy="32" r="21" fill="none" className="stroke-orange" strokeWidth="1.6" />
       <circle cx="50.2" cy="21.5" r="3" className="fill-orange" />
-      <text
-        x="32"
-        y="33"
-        textAnchor="middle"
-        dominantBaseline="central"
-        className="fill-ink"
-        fontFamily="var(--font-serif), Georgia, serif"
-        fontSize="30"
-      >
-        R
-      </text>
+      <path
+        d="M25 19v26M25 19h8.5a6.5 6.5 0 0 1 0 13H25M32.5 32 41 45"
+        fill="none"
+        className="stroke-ink"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
